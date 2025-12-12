@@ -1,0 +1,254 @@
+@import "tailwindcss";
+@plugin './hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input[type=number] {
+  -moz-appearance: textfield !important; /* Firefox */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-secondary);
+  border-radius: 10px;
+  border: 2px solid var(--color-background);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-radius: 0;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+@layer components {
+  p {
+    @apply text-[14px] text-[16px]
+  }
+
+  .article-content h1 {
+    @apply text-primary font-medium lg:text-[40px] text-[24px] lg:mb-4 mb-4 leading-[1.2];
+  }
+
+  .article-content h2 {
+    @apply text-primary font-medium lg:text-[40px] text-[24px] mt-8 lg:mb-4 mb-4 leading-[1.2];
+  }
+
+  .article-content span {
+    @apply inline-block;
+  }
+
+  .article-content h3 {
+    @apply text-primary font-medium lg:text-[40px] text-[24px] lg:mb-4 mb-4 leading-[1.2];
+  }
+
+  .article-content h5 {
+    @apply text-primary font-semibold lg:text-2xl text-lg lg:mb-4 mb-4 leading-[1.2];
+  }
+
+  .article-content ol {
+    @apply list-decimal pl-6 mb-4;
+  }
+
+  .article-content li {
+    @apply list-disc !text-secondary;
+
+  }
+
+  .article-content p {
+    @apply mb-4 text-[14px] lg:text-[16px] text-secondary;
+  }
+
+  .eiendomsmegler-content h2 {
+    @apply mb-4 text-[24px] lg:text-[48px] text-primary font-semibold lg:leading-16 leading-8;
+
+  }
+
+  .eiendomsmegler-content p {
+    @apply mb-4 text-[14px] lg:text-[16px] text-primary;
+
+  }
+
+  /* real-estate-content  */
+  .real-estate-content h2 {
+    @apply mb-[24px] mt-[40px] text-[24px] lg:text-[48px] text-primary font-semibold lg:leading-14 leading-6;
+  }
+
+  .real-estate-content h3 {
+    @apply mb-[24px] mt-[40px] text-[24px] lg:text-[40px] text-primary font-medium lg:leading-14 leading-6;
+  }
+
+  .real-estate-content p {
+    @apply text-primary;
+  }
+
+  .ql-code-block-container {
+    @apply bg-primary/20 p-6 rounded-2xl
+  }
+
+  .ql-code-block-container> :first-child {
+    @apply text-[20px] mb-2 lg:text-2xl font-bold text-primary
+  }
+
+  .ql-code-block-container> :not(:first-child) {
+    @apply text-[14px] lg:text-base;
+  }
+
+}
+
+/* .article-content li::marker {
+  font-size: 20px;
+} */
+.article-content li {
+  position: relative;
+  list-style: none;
+}
+
+.article-content li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  display: block;
+  border-radius: 50%;
+  background-color: #686868;
+  position: absolute;
+  left: -20px;
+  top: 8px;
+}
+
+.inter-thin {
+  font-family: "Inter", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.inter-extralight {
+  font-family: "Inter", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.inter-light {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.inter-regular {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.inter-medium {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.inter-semibold {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.inter-bold {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.inter-extrabold {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+.inter-black {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.inter-thin-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.inter-extralight-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.inter-light-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.inter-regular-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.inter-medium-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.inter-semibold-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.inter-bold-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.inter-extrabold-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+}
+
+.inter-black-italic {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+@theme {
+  --color-primary: #2A4165;
+  --color-primarylight: #F5F7FF;
+  --color-secondary: #686868;
+  --color-dark: #161925;
+  --color-accent: #F8F9FD;
+  --color-background: #FFFFFF;
+  --color-cardbg: #23395B;
+  --color-navbarbg: #161925;
+  --color-footerbg: #161925;
+  --color-formsteps: #27AE60
+}

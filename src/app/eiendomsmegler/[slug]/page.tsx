@@ -1,0 +1,67 @@
+import HomePage from "@/app/page";
+import Breadcrumbs from "@/components/global/breadcrumbs";
+import { getCachedCityBySlugData } from "@/services/data/getPlaceBySlug-service";
+import { generatePageMetadata } from "@/utils/metadata";
+import type { Metadata } from "next";
+import SlugContent from "./content";
+import { capitalizeTitle } from "@/utils/capitalizeTitle";
+
+interface SlugPageProps {
+  params: {
+    slug: string;
+  };
+  searchParams?: {
+    [key: string]: string | string[] | undefined;
+  };
+}
+
+
+export async function generateMetadata({ params, searchParams }: SlugPageProps): Promise<Metadata> {
+  const param: any = await searchParams
+  const rawSlug = await params
+  const slugValue = await rawSlug.slug
+  const title = capitalizeTitle(param.slug);
+  const doc = await getCachedCityBySlugData(slugValue)
+  const placeData = await JSON.parse(JSON.stringify(doc));
+
+  const { metaTitle, metaDescription, metaKeywords, metaImage, ogTitle, ogDescription, canonicalUrl, robots, jsonLd, publishedDate, lastUpdatedDate, subHeading, heading, ogImage, ogType, bannerImage, slug } = placeData.data
+
+  return generatePageMetadata({
+    title: metaTitle || slug || heading || `${title} | Flyttetipset.no`,
+    description: metaDescription || subHeading || "Welcome to Flyttetipset.no— compare and find the best real estate agents in Norway.",
+    path: "/",
+    keywords: metaKeywords ? metaKeywords.split(",").map((k: string) => k.trim()).filter(Boolean) : ["flyttetipset", "real estate", "agents", "compare"],
+    type: ogType || "website",
+    image: metaImage || ogImage || bannerImage || null,
+    ogTitle: ogTitle || metaTitle || `${title} | Flyttetipset.no`,
+    ogDescription: ogDescription || metaDescription || "Compare top real estate agents in Norway easily with Flyttetipset.no.",
+    canonicalUrl: `/eiendomsmegler/${canonicalUrl}`,
+    robots: robots || "index, follow",
+    jsonLd: jsonLd || {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Flyttetipset.no",
+    },
+    publishedDate: publishedDate,
+    lastUpdatedDate: lastUpdatedDate,
+  });
+}
+
+
+const SlugPage = async ({ params, searchParams }: SlugPageProps) => {
+  const searchParam = await searchParams
+  const param = await params
+  const slugValue = await param.slug || ''
+  const county = await searchParam?.county || ''
+
+  return (
+    <HomePage>
+      <Breadcrumbs className="mt-8" />
+      <div className="max-w-7xl m-auto py-10 px-4 md:px-6 lg:px-8">
+        <SlugContent slug={slugValue} county={county || ''} searchParams={searchParam} />
+      </div>
+    </HomePage>
+  );
+};
+
+export default SlugPage;
