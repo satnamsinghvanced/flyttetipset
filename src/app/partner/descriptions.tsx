@@ -8,7 +8,7 @@ const PartnerDescriptions = ({ data }: any) => {
         <div className="w-full bg-background">
             <div className='max-w-7xl m-auto flex gap-10  py-12 px-4 md:px-6 lg:px-8 md:flex-row flex-col-reverse'>
                 <div className='w-full'>
-                    <Heading heading={data.title} className='mb-6 lg:mb-16 mt-0 !text-[64px] max-lg:!text-[36px] !font-bold w-full  leading-10 lg:leading-18' />
+                    <Heading heading={data?.title} className='mb-6 lg:mb-16 mt-0 !text-[64px] max-lg:!text-[36px] !font-bold w-full  leading-10 lg:leading-18' />
                     <div className='w-fit'>
                         <div
                             dangerouslySetInnerHTML={{ __html: data?.description || "" }}

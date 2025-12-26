@@ -21,6 +21,6 @@ export const getCachedRealEstateData = unstable_cache(
         }
     },
     ['real-estate-agent-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );
 

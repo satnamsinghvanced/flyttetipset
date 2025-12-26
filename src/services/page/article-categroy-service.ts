@@ -21,5 +21,5 @@ export const getCachedTopArticleCategory = unstable_cache(
         }
     },
     ['articleCategory-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

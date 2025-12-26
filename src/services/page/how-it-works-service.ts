@@ -21,5 +21,5 @@ export const getCachedHomepageData = unstable_cache(
         }
     },
     ['homepage-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

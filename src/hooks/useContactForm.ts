@@ -45,7 +45,7 @@ export const useContactForm = ({ fields, onSubmit }: UseContactFormProps) => {
 
     const handleSubmit = useCallback(async () => {
         // Mark all fields as touched
-        const allTouched = new Set(fields.map(field => field.name));
+        const allTouched = new Set(fields?.map(field => field.name));
         setTouched(allTouched);
 
         // Validate all fields

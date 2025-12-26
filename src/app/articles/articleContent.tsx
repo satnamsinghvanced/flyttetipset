@@ -11,8 +11,8 @@ export default async function ArticleContent({ searchParams, title, categoriesHe
     const categories = await JSON.parse(JSON.stringify(categoriesDoc));
 
     const selectedCategory = categorySlug
-        ? categories.data.find((cat: any) => cat.slug === categorySlug)
-        : categories.data[0];
+        ? categories?.data.find((cat: any) => cat?.slug === categorySlug)
+        : categories?.data[0];
     const category = categorySlug || selectedCategory?.slug
 
     const articleDoc = await getCachedArticlesByCategory({
@@ -26,12 +26,12 @@ export default async function ArticleContent({ searchParams, title, categoriesHe
         <Articles
             categoriesHeading={categoriesHeading}
             heading={title}
-            tabs={categories.data}
-            data={articles.data}
+            tabs={categories?.data}
+            data={articles?.data}
             currentPage={page}
-            totalPages={articles.totalPages}
-            totalArticles={articles.total}
-            selectedCategorySlug={selectedCategory?.slug || categories.data[0]?.slug}
+            totalPages={articles?.totalPages}
+            totalArticles={articles?.total}
+            selectedCategorySlug={selectedCategory?.slug || categories?.data[0]?.slug}
         />
     );
 }

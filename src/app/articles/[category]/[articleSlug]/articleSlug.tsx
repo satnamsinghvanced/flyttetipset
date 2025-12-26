@@ -27,7 +27,7 @@ const ArticleSlug = async ({ slugValue }: ArticleProps) => {
             height={100}
             alt={`${article?.title} image`}
             className="w-full rounded-2xl mb-6"
-            loading="lazy" 
+            loading="lazy"
           />
         )}
       </div>
@@ -52,7 +52,7 @@ const ArticleSlug = async ({ slugValue }: ArticleProps) => {
                 height={100}
                 alt={`${article?.title} image`}
                 className="w-full rounded-2xl mb-6"
-                loading="lazy" 
+                loading="lazy"
               />
             )}
           </div>
@@ -65,9 +65,9 @@ const ArticleSlug = async ({ slugValue }: ArticleProps) => {
           <GetQuotes />
         </div>
       </div>
-      {
-        article.articleTags ?
-          <ArticlesByTags tags={article.articleTags} slug={article.slug} />
+      {article?.articleTags &&
+        article?.articleTags ?
+          <ArticlesByTags tags={article?.articleTags} slug={article?.slug} />
           :
           <ArticleSecond />
       }

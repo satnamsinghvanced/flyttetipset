@@ -29,7 +29,6 @@ export const validateField = (value: string, field: ContactField): string => {
         default:
             break;
     }
-
     return '';
 };
 
@@ -42,7 +41,6 @@ export const validateForm = (formData: FormValues, fields: ContactField[]): Form
             errors[field.name] = error;
         }
     });
-
     return errors;
 };
 

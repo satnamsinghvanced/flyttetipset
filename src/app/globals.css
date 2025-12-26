@@ -4,6 +4,12 @@
 @source '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+
+
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -24,14 +30,14 @@ input[type=number] {
   border: 2px solid var(--color-background);
 }
 
-html {
+/* html {
   scroll-behavior: smooth;
-}
+} */
 
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   background: var(--color-background);
   border-radius: 0;
-}
+} */
 
 body {
   font-family: "Inter", sans-serif;

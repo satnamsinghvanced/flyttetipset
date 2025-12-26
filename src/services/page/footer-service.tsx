@@ -27,5 +27,5 @@ export const getCachedFooterData = unstable_cache(
         }
     },
     ['footer-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

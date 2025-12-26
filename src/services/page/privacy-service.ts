@@ -21,5 +21,5 @@ export const getCachedPrivacyData = unstable_cache(
         }
     },
     ['privacy- policy-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -26,7 +26,7 @@ const LatestInsightsCard = ({
         </div>
 
         <div className="py-4 flex flex-col flex-grow">
-          {date}
+         <p className="text-[#16192580] mb-[10px] text-[14px]"> {date}</p>
           <h3 className="text-[20px] font-semibold text-dark/90 mb-4 leading-tight line-clamp-3">
             {title}
           </h3>

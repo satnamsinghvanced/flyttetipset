@@ -7,6 +7,7 @@ declare global {
         lastConnected: number | null;
         retryCount: number;
         isConnecting: boolean;
+        cleanupSetup?: boolean;
     } | any;
 }
 
@@ -30,7 +31,12 @@ const cached = global.mongoose || {
     lastConnected: null as number | null,
     retryCount: 0,
     isConnecting: false,
+    cleanupSetup: false,
 };
+
+if (!global.mongoose) {
+    global.mongoose = cached;
+}
 
 const connectionOptions: mongoose.ConnectOptions = {
     dbName: DB_NAME,
@@ -148,15 +154,18 @@ function setupConnectionEventHandlers(mongooseInstance: typeof mongoose) {
         console.log('MongoDB reconnected');
     });
 
-    process.on('SIGINT', async () => {
-        await closeDatabaseConnection();
-        process.exit(0);
-    });
+    if (!cached.cleanupSetup) {
+        process.on('SIGINT', async () => {
+            await closeDatabaseConnection();
+            process.exit(0);
+        });
 
-    process.on('SIGTERM', async () => {
-        await closeDatabaseConnection();
-        process.exit(0);
-    });
+        process.on('SIGTERM', async () => {
+            await closeDatabaseConnection();
+            process.exit(0);
+        });
+        cached.cleanupSetup = true;
+    }
 }
 
 export async function connectDB(): Promise<typeof mongoose> {

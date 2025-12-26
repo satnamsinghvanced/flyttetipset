@@ -20,15 +20,15 @@ export default async function AboutContent({ content }: AboutContentProps) {
       <div className="w-full flex gap-8 max-w-7xl m-auto py-10 pt-5 flex-row max-md:flex-col px-4 md:px-6 lg:px-8">
         <div className="w-full">
           <div className="flex flex-col gap-10">
-            {content.content.map((item, index) => (
+            {content?.content?.map((item, index) => (
               <div key={index} className="flex flex-col gap-5">
-                <Heading heading={item.title} className={` text-primary leading-10 lg:leading-18  ${index === 0
+                <Heading heading={item?.title} className={` text-primary leading-10 lg:leading-18  ${index === 0
                   ? "!text-[64px] max-lg:!text-[36px] !font-bold !mb-[10px]"
                   : "!text-5xl max-lg:!text-[36px] !font-semibold !mb-[2px]"
                   }  `} />
                 {index === 0 && (
                   <Image
-                    src={`${imageBaseUrl}${content.image}`}
+                    src={`${imageBaseUrl}${content?.image}`}
                     alt="about banner"
                     className="w-full rounded-lg h-[202px] mt-0 object-cover md:hidden"
                     width={1000}
@@ -36,10 +36,10 @@ export default async function AboutContent({ content }: AboutContentProps) {
                     loading="lazy"
                   />
                 )}
-                <p className="text-base font-normal text-secondary">{item.descriptions}</p>
+                <p className="text-base font-normal text-secondary">{item?.descriptions}</p>
                 {index === 0 && (
                   <Image
-                    src={`${imageBaseUrl}${content.image}`}
+                    src={`${imageBaseUrl}${content?.image}`}
                     alt="about banner"
                     className="w-full rounded-lg h-[312px] mt-6 object-cover hidden md:block"
                     width={1000}
@@ -57,7 +57,7 @@ export default async function AboutContent({ content }: AboutContentProps) {
       </div>
       {
         howItWorks &&
-        <HowItWorks cards={howItWorks.howDoesItworksCards} flex={true} title={howItWorks.howDoesItworks.heading} titleClass={`text-[36px] lg:text-[56px]`} />
+        <HowItWorks cards={howItWorks?.howDoesItworksCards} flex={true} title={howItWorks?.howDoesItworks?.heading} titleClass={`text-[36px] lg:text-[56px]`} />
       }
     </>
   );

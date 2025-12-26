@@ -21,6 +21,6 @@ export const getCachedThemeData = unstable_cache(
         }
     },
     ['theme-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );
 

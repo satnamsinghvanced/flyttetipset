@@ -26,5 +26,5 @@ export const getCachedCountyData = unstable_cache(
         }
     },
     ['county-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

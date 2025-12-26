@@ -21,6 +21,6 @@ export const getCachedPartnerData = unstable_cache(
         }
     },
     ['partner-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );
 

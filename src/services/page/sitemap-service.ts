@@ -28,5 +28,5 @@ export const getCachedSiteMapData = unstable_cache(
         }
     },
     ['siteMap-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

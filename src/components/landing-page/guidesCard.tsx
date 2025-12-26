@@ -9,7 +9,7 @@ const GuidesCard = ({ city, description, href = "#", icon }: GuidesCardProps) =>
     const imageBaseUrl = process.env.NEXT_PUBLIC_IMAGE_URL ?? "";
     return (
         <div id={href} className="block group" >
-            <Link href={`eiendomsmegler?county=${href}`}>
+           <Link href={href}>
                 <div className="bg-background p-4 rounded-xl shadow-sm hover:shadow-md h-full transition-all duration-300 border border-secondary/10 group-hover:border-primary/20 min-h-[120px] flex flex-col justify-between">
                     <div>
                         <div className=' flex justify-start items-center gap-3'>

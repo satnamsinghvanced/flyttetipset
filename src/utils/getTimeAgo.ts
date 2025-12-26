@@ -17,7 +17,6 @@ export function getTimeAgo(timeString: string): Date {
     }
 
     if (totalMs === 0) {
-        // Try to parse as plain seconds
         const seconds = parseInt(timeString);
         if (!isNaN(seconds)) {
             totalMs = seconds * 1000;

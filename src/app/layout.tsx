@@ -1,37 +1,37 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import DefaultLayout from "@/components/layout/DefaultLayout";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import type { Metadata } from "next";
+
+const siteUrl = (
+  process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"
+).replace(/\/$/, "");
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  verification: {
+    google: "xyZRY1YzJDbEqdqb44ambRQciD4W_VvfcNMOmtpC0uk",
+  },
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" >
-      <head>
-        {/* Preconnect for Google Fonts */}
-        <link rel="preload" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <meta name="google-site-verification" content="xyZRY1YzJDbEqdqb44ambRQciD4W_VvfcNMOmtpC0uk" />
-        {/* Google Fonts */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`} data-scroll-behavior="smooth" scroll-behavior="smooth" >
+    <html lang="en">
+      <body className={`${inter.variable} antialiased`}>
         <Providers>
-          {children}
+          <DefaultLayout>{children}</DefaultLayout>
         </Providers>
       </body>
     </html>

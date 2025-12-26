@@ -22,5 +22,5 @@ export const getCachedArticleBySlug = unstable_cache(
     },
     // Cache KEY must include slug
     [`article-detailed-data`],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

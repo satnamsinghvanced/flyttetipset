@@ -21,5 +21,5 @@ export const getCachedTermsData = unstable_cache(
         }
     },
     ['terms-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -6,7 +6,7 @@ const RedirectButton = ({
     redirect = '/form',
     className = 'bg-primary text-background text-[16px] ',
 }: RedirectButtonProps) => {
-    return ( 
+    return (
         <Link href={redirect} className={`${className} py-4 px-8 w-full lg:w-fit font-semibold bg-primary hover:bg-primary/90 transition-all ease-in-out text-background text-[16px] rounded-lg`} >
             {text}
         </Link>

@@ -28,5 +28,5 @@ export const getCachedTopArticles = unstable_cache(
         }
     },
     ["top-articles"],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -21,5 +21,5 @@ export const getCachedAboutData = unstable_cache(
         }
     },
     ['about-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -22,7 +22,7 @@ const FAQSection = ({
           </h2>
           <div className={`text-primary ${containerClasses}`}>
             <Accordion variant="splitted" className='' >
-              {faqs.map((faq) => (
+              {faqs?.map((faq) => (
                 <AccordionItem
                   key={faq.id}
                   className='bg-primarylight my-1 shadow-none'

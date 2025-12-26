@@ -16,7 +16,7 @@ const GetQuotes = async () => {
                     {quotes.description || 'Finn din by for å se konkret salgsguide for akkurat der du bor. Vi gir deg prisstatistikk, oversikt over meglere og generelle råd for akkurat ditt område.'}
                 </p>
                 <div className="flex flex-col gap-3 my-2">
-                    {quotes.points && Array.isArray(quotes.points) && quotes.points.map((point: any, index: number) => (
+                    {quotes.points && Array.isArray(quotes.points) && quotes.points?.map((point: any, index: number) => (
                         <div key={index} className="flex gap-3 items-center">
                             <FaCheck className='mt-1' />
                             <p>{point}</p>
@@ -29,7 +29,7 @@ const GetQuotes = async () => {
             </div>
             <div className="bg-cardbg text-background px-4 md:hidden flex flex-col w-full fixed bottom-0 left-0 z-50 h-[100px] justify-center" >
                 <div className="flex justify-evenly gap-3 my-2 mt-0 text-sm">
-                    {quotes.points && Array.isArray(quotes.points) && quotes.points.map((point: any, index: number) => (
+                    {quotes.points && Array.isArray(quotes.points) && quotes.points?.map((point: any, index: number) => (
                         <div key={index} className="flex gap-3 items-center">
                             <FaCheck className='mt-1 ' />
                             <p className='text-sm'>{point}</p>

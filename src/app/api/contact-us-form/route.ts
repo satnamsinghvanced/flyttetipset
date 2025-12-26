@@ -1,7 +1,7 @@
-import { NextRequest } from 'next/server';
-import { connectDB } from '@/lib/mongoose';
-import { ContactUs } from '@/lib/models/models';
 import { ContactFormBody } from '@/const/types';
+import { ContactUs } from '@/lib/models/models';
+import { connectDB } from '@/lib/mongoose';
+import { NextRequest } from 'next/server';
 
 function isValidEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

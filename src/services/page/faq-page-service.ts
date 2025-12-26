@@ -21,5 +21,5 @@ export const getCachedFaqPageData = unstable_cache(
         }
     },
     ['faq-page-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

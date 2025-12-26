@@ -27,5 +27,5 @@ export const getCachedQuoteData = unstable_cache(
         }
     },
     ['quote-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

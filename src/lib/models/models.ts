@@ -114,6 +114,26 @@ const homepageSchema = new mongoose.Schema(
     citySectionHeading: {
       title: { type: String },
       description: { type: String },
+      buttonText: { type: String, trim: true },
+      ctaLink: { type: String, trim: true },
+
+      locations: [
+        {
+          locationId: {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            refPath: "citySectionHeading.locations.locationType",
+          },
+          locationType: {
+            type: String,
+            required: true,
+            enum: ["County", "Place"],
+          },
+          order: {
+            type: Number,
+          },
+        },
+      ],
     },
     prosSection: [
       {
@@ -173,9 +193,10 @@ const partnerSchema = new mongoose.Schema(
       lastMonth: { type: Number, default: 0 },
       currentMonth: { type: Number, default: 0 },
       total: { type: Number, default: 0 },
+      lastReset: { type: Date, default: new Date() },
     },
     leadType: {
-      type: String
+      type: String,
     },
 
     wishes: [
@@ -321,6 +342,26 @@ const countySchema = new mongoose.Schema(
     excerpt: {
       type: String,
     },
+    title: { type: String },
+    description: { type: String },
+    icon: { type: String },
+    companies: [
+      {
+        companyId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Company",
+          required: true,
+        },
+        rank: {
+          type: Number,
+          default: 0, // order inside this place
+        },
+        isRecommended: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -338,13 +379,27 @@ const placeSchema = new mongoose.Schema(
     excerpt: { type: String },
     title: { type: String },
     description: { type: String },
+    icon: { type: String },
     // image: { type: String, required: true },
     isRecommended: { type: Boolean, default: false },
     rank: { type: Number, default: 0 },
-    companiesId: {
-      type: [mongoose.Schema.Types.ObjectId],
-      ref: "Company",
-    },
+    companies: [
+      {
+        companyId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Company",
+          required: true,
+        },
+        rank: {
+          type: Number,
+          default: 0, // order inside this place
+        },
+        isRecommended: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
     zipCode: {
       type: String,
     },
@@ -537,8 +592,8 @@ const CollaboratePartners = new mongoose.Schema(
 
       ranges: [
         {
-          from: { type: String, },
-          to: { type: String, },
+          from: { type: String },
+          to: { type: String },
         },
       ],
     },
@@ -546,6 +601,9 @@ const CollaboratePartners = new mongoose.Schema(
     isActive: { type: Boolean, default: true },
     leads: {
       total: { type: Number, default: 0 },
+      lastMonth: { type: Number, default: 0 },
+      currentMonth: { type: Number, default: 0 },
+      lastReset: { type: Date, default: new Date() },
     },
     leadTypes: [
       {
@@ -569,8 +627,6 @@ const CollaboratePartners = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-
 const emailTemplateSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true, unique: true },
@@ -580,7 +636,6 @@ const emailTemplateSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
 
 const smtpSchema = new mongoose.Schema(
   {
@@ -662,7 +717,6 @@ const articlePageSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
 const counterSchema = new mongoose.Schema({
   model: { type: String, required: true, unique: true },
   count: { type: Number, default: 0 },
@@ -673,7 +727,7 @@ const userSchema = new Schema(
     uniqueId: {
       type: Number,
       unique: true,
-      required: true
+      required: true,
     },
     status: {
       type: String,
@@ -698,8 +752,14 @@ const userSchema = new Schema(
     // ],
     partnerIds: [
       {
-        type: Schema.Types.ObjectId,
-        ref: "CollaboratePartners",
+        partnerId: {
+          type: Schema.Types.ObjectId,
+          ref: "CollaboratePartners",
+        },
+        leadPrice: {
+          type: Number,
+          default: 0,
+        },
       },
     ],
 
@@ -710,12 +770,27 @@ const userSchema = new Schema(
     dynamicFields: { type: mongoose.Schema.Types.Mixed, default: {} },
     log: {
       type: String,
-      required: false
+      required: false,
     },
     logSummary: {
       type: String,
-      required: false
+      required: false,
     },
+    emailResults: [
+      {
+        partnerId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "CollaboratePartners",
+        },
+        email: String,
+        status: {
+          type: String,
+          enum: ["sent", "failed", "pending"],
+        },
+        sentAt: Date,
+        error: String,
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -732,7 +807,6 @@ const userSchema = new Schema(
 //   }
 //   next();
 // });
-
 
 const FormSelectSchema = new mongoose.Schema(
   {
@@ -753,26 +827,26 @@ const FormSelectSchema = new mongoose.Schema(
     formNumber: {
       type: Number,
       unique: true,
-
     },
     price: {
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   { timestamps: true }
 );
 FormSelectSchema.pre("save", async function (next) {
   if (!this.isNew) return next(); // Only on create
 
-  const lastForm = await mongoose.model("FormSelect").findOne().sort({ formNumber: -1 });
+  const lastForm = await mongoose
+    .model("FormSelect")
+    .findOne()
+    .sort({ formNumber: -1 });
 
   this.formNumber = lastForm ? lastForm.formNumber + 1 : 1;
 
   next();
 });
-
-
 
 const formPageSchema = new mongoose.Schema(
   {
@@ -823,34 +897,72 @@ const partnerLimitSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-
-export const User: Model<IUser> = (mongoose.models.User as Model<IUser>) || mongoose.model<IUser>("User", userSchema);
-export const Category = mongoose.models.Category || mongoose.model("Category", categorySchema);
-export const ArticleCategory = mongoose.models.ArticleCategory || mongoose.model("ArticleCategory", articleCategorySchema);
-export const Article = mongoose.models.Article || mongoose.model("Article", articleSchema);
+export const User: Model<IUser> =
+  (mongoose.models.User as Model<IUser>) ||
+  mongoose.model<IUser>("User", userSchema);
+export const Category =
+  mongoose.models.Category || mongoose.model("Category", categorySchema);
+export const ArticleCategory =
+  mongoose.models.ArticleCategory ||
+  mongoose.model("ArticleCategory", articleCategorySchema);
+export const Article =
+  mongoose.models.Article || mongoose.model("Article", articleSchema);
 export const Faq = mongoose.models.Faq || mongoose.model("Faq", faqSchema);
-export const Homepage = mongoose.models.Homepage || mongoose.model("Homepage", homepageSchema);
-export const About = mongoose.models.About || mongoose.model("About", aboutSchema);
-export const Partner = mongoose.models.Partner || mongoose.model("Partner", partnerSchema);
-export const PrivacyPolicy = mongoose.models.PrivacyPolicy || mongoose.model("PrivacyPolicy", privacyPolicySchema);
-export const TermOfService = mongoose.models.TermOfService || mongoose.model("TermOfService", termOfServiceSchema);
-export const FormBuilder = mongoose.models.FormBuilder || mongoose.model("FormBuilder", FormSchema);
-export const Theme = mongoose.models.Theme || mongoose.model("Theme", themeSchema);
-export const Company = mongoose.models.Company || mongoose.model("Company", companySchema);
-export const County = mongoose.models.County || mongoose.model("County", countySchema);
-export const Places = mongoose.models.Places || mongoose.model("Places", placeSchema);
-export const WebsiteSettings = mongoose.models.WebsiteSettings || mongoose.model("WebsiteSettings", websiteSettingsSchema);
-export const Quote = mongoose.models.Quote || mongoose.model("Quote", quoteSchema);
-export const ContactUs = mongoose.models.ContactUs || mongoose.model("ContactUs", contactUsSchema);
-export const RealEstateAgent = mongoose.models.RealEstateAgent || mongoose.model("RealEstateAgent", realEstateAgentSchema);
-export const Footer = mongoose.models.Footer || mongoose.model("Footer", FooterSchema);
-export const Sitemap = mongoose.models.Sitemap || mongoose.model("Sitemap", SitemapSchema);
-export const CollaboratePartner = mongoose.models.CollaboratePartners || mongoose.model("CollaboratePartners", CollaboratePartners);
-export const EmailTemplate = mongoose.models.EmailTemplate || mongoose.model("EmailTemplate", emailTemplateSchema);
-export const SmtpConfig = mongoose.models.SmtpConfig || mongoose.model("SmtpConfig", smtpSchema);
-export const FaqPage = mongoose.models.FaqPage || mongoose.model("FaqPage", faqPageSchema);
-export const ArticlePage = mongoose.models.ArticlePage || mongoose.model("ArticlePage", articlePageSchema);
-export const Counter = mongoose.models.Counter || mongoose.model("Counter", counterSchema);
-export const FormSelect = mongoose.models.FormSelect || mongoose.model("FormSelect", FormSelectSchema);
-export const FormPage = mongoose.models.FormPage || mongoose.model("FormPage", FormSelectSchema);
-export const PartnerLimit = mongoose.models.PartnerLimit || mongoose.model("PartnerLimit", partnerLimitSchema); 
+export const Homepage =
+  mongoose.models.Homepage || mongoose.model("Homepage", homepageSchema);
+export const About =
+  mongoose.models.About || mongoose.model("About", aboutSchema);
+export const Partner =
+  mongoose.models.Partner || mongoose.model("Partner", partnerSchema);
+export const PrivacyPolicy =
+  mongoose.models.PrivacyPolicy ||
+  mongoose.model("PrivacyPolicy", privacyPolicySchema);
+export const TermOfService =
+  mongoose.models.TermOfService ||
+  mongoose.model("TermOfService", termOfServiceSchema);
+export const FormBuilder =
+  mongoose.models.FormBuilder || mongoose.model("FormBuilder", FormSchema);
+export const Theme =
+  mongoose.models.Theme || mongoose.model("Theme", themeSchema);
+export const Company =
+  mongoose.models.Company || mongoose.model("Company", companySchema);
+export const County =
+  mongoose.models.County || mongoose.model("County", countySchema);
+export const Places =
+  mongoose.models.Places || mongoose.model("Places", placeSchema);
+export const WebsiteSettings =
+  mongoose.models.WebsiteSettings ||
+  mongoose.model("WebsiteSettings", websiteSettingsSchema);
+export const Quote =
+  mongoose.models.Quote || mongoose.model("Quote", quoteSchema);
+export const ContactUs =
+  mongoose.models.ContactUs || mongoose.model("ContactUs", contactUsSchema);
+export const RealEstateAgent =
+  mongoose.models.RealEstateAgent ||
+  mongoose.model("RealEstateAgent", realEstateAgentSchema);
+export const Footer =
+  mongoose.models.Footer || mongoose.model("Footer", FooterSchema);
+export const Sitemap =
+  mongoose.models.Sitemap || mongoose.model("Sitemap", SitemapSchema);
+export const CollaboratePartner =
+  mongoose.models.CollaboratePartners ||
+  mongoose.model("CollaboratePartners", CollaboratePartners);
+export const EmailTemplate =
+  mongoose.models.EmailTemplate ||
+  mongoose.model("EmailTemplate", emailTemplateSchema);
+export const SmtpConfig =
+  mongoose.models.SmtpConfig || mongoose.model("SmtpConfig", smtpSchema);
+export const FaqPage =
+  mongoose.models.FaqPage || mongoose.model("FaqPage", faqPageSchema);
+export const ArticlePage =
+  mongoose.models.ArticlePage ||
+  mongoose.model("ArticlePage", articlePageSchema);
+export const Counter =
+  mongoose.models.Counter || mongoose.model("Counter", counterSchema);
+export const FormSelect =
+  mongoose.models.FormSelect || mongoose.model("FormSelect", FormSelectSchema);
+export const FormPage =
+  mongoose.models.FormPage || mongoose.model("FormPage", FormSelectSchema);
+export const PartnerLimit =
+  mongoose.models.PartnerLimit ||
+  mongoose.model("PartnerLimit", partnerLimitSchema);

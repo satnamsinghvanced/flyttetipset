@@ -21,5 +21,5 @@ export const getCachedFormSelect = unstable_cache(
         }
     },
     ['partner-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

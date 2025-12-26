@@ -15,7 +15,7 @@ export const getCachedLatestFAQs = unstable_cache(
                 .populate("categoryId", "categoryName")
                 .lean();
 
-            return faqs.map((faq: any) => ({
+            return faqs?.map((faq: any) => ({
                 id: faq?._id.toString(),
                 question: faq.question,
                 answer: faq.answer,
@@ -28,7 +28,7 @@ export const getCachedLatestFAQs = unstable_cache(
         }
     },
     ['latest-faqs'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );
 
 
@@ -79,5 +79,5 @@ export const getCachedFAQs = unstable_cache(
         }
     },
     ['faqs-aggregated'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

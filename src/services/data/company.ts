@@ -52,5 +52,5 @@ export const getCachedCompanyData = unstable_cache(
         }
     },
     ['company-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -4,7 +4,7 @@ export async function saveContactUs(formData: any) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
     });
-    console.log('response: ', response)
+    // console.log('response: ', response)
 
     if (!response.ok) {
         let errorData = { message: 'There are some network issues' };

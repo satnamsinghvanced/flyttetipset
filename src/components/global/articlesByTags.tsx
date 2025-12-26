@@ -1,9 +1,9 @@
 import { Articles } from "@/const/types";
+import { getCachedArticlesByTags } from "@/services/page/articles-by-tag-service";
+import Link from "next/link";
 import ArticlesCard from "../cards/articleCard";
 import Button from "./button";
 import Heading from "./heading";
-import Link from "next/link";
-import { getCachedArticlesByTags } from "@/services/page/articles-by-tag-service";
 
 interface ArticleSecondProps {
     title?: string;
@@ -21,6 +21,7 @@ const ArticlesByTags = async ({
     const articlesData = articlest.data
 
     return (
+        
         <div className="py-8">
             <Heading heading={title} className="text-center" />
 
@@ -31,12 +32,12 @@ const ArticlesByTags = async ({
             ) : (
                 <>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-12 max-w-7xl mx-auto mb-6" role="list">
-                        {articlesData.slice(0, 4).map((item: any) => (
+                        {articlesData.slice(0, 4)?.map((item: any) => (
                             <ArticlesCard
                                 key={`${item.slug}`}
                                 image={item.image ?? ""}
                                 date={item.showDate ?? ""}
-                                title={item.title}
+                                title={item?.title}
                                 href={
                                     item.href || `/articles/${item.categoryId.slug}/${item.slug}`
                                 }

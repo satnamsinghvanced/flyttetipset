@@ -18,10 +18,10 @@ export default function RegionSelector({
       </div>
       {/* County Buttons */}
       <div className="flex flex-wrap gap-3 justify-start border border-secondary/20 py-3 px-1 rounded-xl bg-background" >
-        {counties.map((county: County) => (
+        {counties?.map((county: County) => (
           <Link
             key={county._id}
-            href={`?county=${county.slug}#c`}
+            href={`/eiendomsmegler/${county.slug}#c`}
             className={`capitalize bg-transparent md:text-[24px] text-[20px] px-4 py-2 rounded-lg ${selectedCountySlug === county.slug // Compare with slug
               ? "text-dark font-medium bg-primary/10"
               : "text-secondary font-medium hover:bg-gray-100"
@@ -42,7 +42,7 @@ export default function RegionSelector({
           {cityList.length === 0 ? (
             <div>No cities available for this region.</div>
           ) : (
-            cityList.map((city: City, index: number) => {
+            cityList?.map((city: City, index: number) => {
               const length = cityList.length;
               const isLast = index === length - 1;
               const isSecondLast = index === length - 2;

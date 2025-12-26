@@ -26,7 +26,7 @@ const ImageWithTextWithPoints = ({ data }: any) => {
             {/* Render points if they exist */}
             {data?.description && data?.description.length > 0 && (
               <div className="space-y-3">
-                {data?.description.map((point: any) => (
+                {data?.description?.map((point: any) => (
                   <div key={point} className="relative flex items-start">
                     <div
                       className={`mt-1 flex-shrink-0 text-lg flex items-center justify-center text-formsteps`}

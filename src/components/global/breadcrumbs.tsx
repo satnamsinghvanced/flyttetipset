@@ -1,15 +1,15 @@
 "use client";
 
+import { BreadcrumbsProps } from "@/const/types";
 import { capitalizeTitle } from "@/utils/capitalizeTitle";
 import { BreadcrumbItem, Breadcrumbs as NextUIBreadcrumbs } from "@heroui/react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { BreadcrumbsProps } from "@/const/types";
+import { usePathname } from "next/navigation";
 
 const Breadcrumbs = ({ className = "" }: BreadcrumbsProps) => {
     const pathname = usePathname();
     const path = pathname?.split("/").filter((segment) => segment) || [];
-    const pathSegments = path.map((segment) => capitalizeTitle(segment));
+    const pathSegments = path?.map((segment) => capitalizeTitle(segment));
 
     return (
         <div className={`m-auto max-w-7xl max-h-[68px] flex items-end text-base px-4 md:px-6  text-dark lg:px-8 ${className}`}>
@@ -25,8 +25,8 @@ const Breadcrumbs = ({ className = "" }: BreadcrumbsProps) => {
                         </Link>
                     </BreadcrumbItem>
                 )}
-
-                {pathSegments.map((segment, index) => {
+                {/* if include  '%C3%B8' replace with 'ø' */}
+                {pathSegments?.map((segment, index) => {
                     const formattedSegment =
                         segment.charAt(0) + segment.slice(1);
                     const href = "/" + path.slice(0, index + 1).join("/");
@@ -43,7 +43,7 @@ const Breadcrumbs = ({ className = "" }: BreadcrumbsProps) => {
                                 :
                                 (
                                     <span className={` text-dark`}>
-                                        {capitalizeTitle(formattedSegment)}
+                                        {capitalizeTitle(formattedSegment)?.replace('%C3%B8', 'ø')}
                                     </span>
                                 )
                             }

@@ -1,34 +1,50 @@
+import { Company, County, Places } from "@/lib/models/models";
+import { connectDB } from "@/lib/mongoose";
+import { unstable_cache } from "next/cache";
 
-import { Company, Places } from '@/lib/models/models';
-import { connectDB } from '@/lib/mongoose';
-import { unstable_cache } from 'next/cache';
+async function fetchCityBySlug(slug: string) {
+  await connectDB();
 
-export const getCachedCityBySlugData = unstable_cache(
-    async (slug: string) => {
-        try {
-            await connectDB();
-            let data = ''
-            const placeData = await Places.findOne({ slug });
-            data = placeData
+  let data =
+    await Places.findOne({ slug })
+      .populate("companies.companyId")
+      .populate({
+        path: "countyId",
+        select: "slug"
+      })
+      .lean();
 
+  if (!data) {
+    data =
+      await County.findOne({ slug })
+        .populate("companies.companyId")
+        .lean();
+  }
 
-            if (!placeData || placeData.length === 0) {
+  if (!data) {
+    data = await Company.findOne({ slug }).lean();
+  }
 
-                const companyData = await Company.findOne({ slug });
-                data = companyData
+  if (!data) return null;
 
-                if (!companyData || companyData.length === 0) {
-                    console.log('No place or company data found in database');
-                    return {}
-                }
-            }
+  // sort companies safely
+  if ("companies" in data && Array.isArray((data as any).companies)) {
+    (data as any).companies.sort(
+      (a: any, b: any) => a.rank - b.rank
+    );
+  }
 
-            return { data: data };
-        } catch (error) {
-            console.log('Place data fetch error:', error);
-            return { error: 'Error fetching place data' };
-        }
+  return data;
+}
+
+// ✅ cached wrapper
+// getPlaceBySlug-service.ts
+export const getCachedCityBySlugData = (slug: string) =>
+  unstable_cache(
+    async () => {
+      const data = await fetchCityBySlug(slug);
+      return { data }; // ✅ IMPORTANT
     },
-    ['place-data'],
-    { revalidate: 10 }
-);
+    [`place-data-${slug}`],
+    { revalidate: 120 }
+  )();

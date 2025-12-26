@@ -23,7 +23,7 @@ const Hamburger = () => {
         <div className="fixed top-40 right-0 bottom-40 w-full bg-background z-5">
           <div className="bg-background p-4 w-full fixed top-[74px] right-0 h-full z-10">
             <ul className="list-none p-0 m-0 px-4 pr-6">
-              {NAV_LINKS.map((link) => (
+              {NAV_LINKS?.map((link) => (
                 <li key={link.href} className="mb-3 group">
                   <Link
                     href={link.href}

@@ -22,5 +22,5 @@ export const getCachedHowItWordsData = unstable_cache(
         }
     },
     ['howItWorks-data'],
-    { revalidate: 10 }
+    { revalidate: 120 }
 );

@@ -17,7 +17,7 @@ const CustomRadioGroup = ({
       aria-invalid={isInvalid}
     >
       {Array.isArray(field.options) &&
-        field.options.map((opt: string, optIndex: number) => {
+        field.options?.map((opt: string, optIndex: number) => {
           const isSelected = value === opt;
           return (
             <button
@@ -25,14 +25,12 @@ const CustomRadioGroup = ({
               type="button"
               onClick={() => onChange(opt)}
               className={`max-h-[246px] px-4 py-6 rounded-md shadow text-sm transition-all w-full flex flex-col justify-start items-start gap-4.5 
-                            ${
-                              isSelected
-                                ? "bg-primary/20 text-primary border-2 border-primary"
-                                : "bg-background text-primary border-2 border-transparent"
-                            } 
-                            ${
-                              isInvalid ? "border-2 border-danger" : ""
-                            } transition ease-in-out`}
+                            ${isSelected
+                  ? "bg-primary/20 text-primary border-2 border-primary"
+                  : "bg-background text-primary border-2 border-transparent"
+                } 
+                            ${isInvalid ? "border-2 border-danger" : ""
+                } transition ease-in-out`}
               role="radio"
               aria-label={opt}
               aria-checked={isSelected}

@@ -27,9 +27,9 @@ const Navbar = ({ logo, logoText }: NavbarProps) => {
               logoText &&
               <Image
                 src={`${imageBaseUrl}${logoText}`}
-                width={77} height={20}
+                width={100} height={20}
                 alt='Flyttetipset Logo'
-                className='h-full max-md:max-h-[265px] w-[85px]'
+                className='h-full max-md:max-h-[265px] w-[142px]'
                 loading="lazy" />
             }
             {
@@ -39,7 +39,7 @@ const Navbar = ({ logo, logoText }: NavbarProps) => {
           </Link>
         </div>
         <div className="hidden md:flex space-x-2 md:space-x-6 lg:space-x-10 items-center">
-          {NAV_LINKS.map((link) => (
+          {NAV_LINKS?.map((link) => (
             <div
               key={link.href}
               className="flex items-center space-x-2 md:space-x-6 lg:space-x-10"

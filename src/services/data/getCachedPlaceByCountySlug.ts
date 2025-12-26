@@ -37,7 +37,7 @@ export const getCachedPlaceByCountySlug = (county: string) => {
     const cachedFetch = unstable_cache(
         fetchPlaces,
         [`place-by-county-slug-${county}`],
-        { revalidate: 10 }
+        { revalidate: 120 }
     );
 
     return cachedFetch();
