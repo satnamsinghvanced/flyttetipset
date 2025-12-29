@@ -116,6 +116,25 @@ body {
     @apply text-[14px] lg:text-base;
   }
 
+  /* Hamburger Menu Animation */
+  .hamburger-line {
+    @apply block w-6 h-0.5 bg-background rounded transition-all duration-300 ease-in-out;
+    transform-origin: center;
+  }
+
+  .hamburger-line-top-open {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .hamburger-line-middle-open {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .hamburger-line-bottom-open {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
 }
 
 /* .article-content li::marker {

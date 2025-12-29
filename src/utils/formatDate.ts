@@ -11,5 +11,5 @@ export function formatDate(dateString: string): string {
         day: 'numeric',
     };
 
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat('nb-NO', options).format(date);
 }

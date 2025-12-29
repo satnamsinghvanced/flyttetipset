@@ -21,7 +21,7 @@ export default function RegionSelector({
         {counties?.map((county: County) => (
           <Link
             key={county._id}
-            href={`/eiendomsmegler/${county.slug}#c`}
+            href={`/aktorer/${county.slug}#c`}
             className={`capitalize bg-transparent md:text-[24px] text-[20px] px-4 py-2 rounded-lg ${selectedCountySlug === county.slug // Compare with slug
               ? "text-dark font-medium bg-primary/10"
               : "text-secondary font-medium hover:bg-gray-100"
@@ -50,7 +50,7 @@ export default function RegionSelector({
 
               return (
                 <Link
-                  href={`/eiendomsmegler/${city.slug}`}
+                  href={`/aktorer/${city.slug}`}
                   key={city.slug}
                   className={`bg-transparent rounded-none text-2xl px-0 font-medium flex justify-between items-center border-b transition-colors duration-300 ${isBorderRemoved
                     ? "border-transparent"

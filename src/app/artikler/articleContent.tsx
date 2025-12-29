@@ -1,6 +1,7 @@
 import { ArticleContentProps } from "@/const/types";
 import { getCachedArticleCategories, getCachedArticlesByCategory } from "@/services/page/article-service";
 import Articles from "./articles";
+import { notFound } from "next/navigation";
 
 export default async function ArticleContent({ searchParams, title, categoriesHeading }: ArticleContentProps) {
     const params = await searchParams;
@@ -16,11 +17,15 @@ export default async function ArticleContent({ searchParams, title, categoriesHe
     const category = categorySlug || selectedCategory?.slug
 
     const articleDoc = await getCachedArticlesByCategory({
-        categorySlug: category,
+        categorySlug: '',
         page: page,
         limit: 6
     });
     const articles = await JSON.parse(JSON.stringify(articleDoc));
+
+    if (!articles?.data) {
+        notFound()
+    }
 
     return (
         <Articles

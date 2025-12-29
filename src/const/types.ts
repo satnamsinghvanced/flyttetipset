@@ -275,6 +275,7 @@ export interface ArticlesCardProps {
 
 export interface BreadcrumbsProps {
   className?: string;
+  showBackground?: boolean;
 }
 
 export type DescriptionProps = {

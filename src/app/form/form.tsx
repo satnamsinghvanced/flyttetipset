@@ -174,7 +174,7 @@ const FormSelectionField = ({
       {isInvalid && error && touched && (
         <p className="text-danger text-sm">{error}</p>
       )}
-      <div className="grid grid-cols-2 gap-3 w-full">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-3.5 w-full mb-8">
         {formSelect?.map((form: FormSelectItem) => {
           const isSelected = selectedForms.includes(form._id);
 
@@ -182,7 +182,7 @@ const FormSelectionField = ({
             <button
               key={form._id}
               type="button"
-              className={`p-6 rounded-lg transition-all duration-300 text-sm font-medium shadow-sm w-full flex gap-2 flex-col justify-start items-start ${isSelected
+              className={`p-4 sm:p-6 rounded-lg transition-all duration-300 text-sm font-medium shadow-sm w-full flex gap-2 flex-col justify-start items-start min-h-[138px] ${isSelected
                 ? "bg-primary/20 text-primary"
                 : "bg-white text-primary"
                 } ${isInvalid && touched ? "border-danger" : ""}`}
@@ -192,7 +192,7 @@ const FormSelectionField = ({
                 {" "}
                 {form.formTitle}
               </div>
-              <div className="font-normal text-base text-secondary leading-5 w-full text-start">
+              <div className="font-normal text-base text-secondary leading-5 w-full max-w-[188px] text-start">
                 {" "}
                 {form.formDescription}
               </div>
@@ -203,11 +203,11 @@ const FormSelectionField = ({
       {isMultiSelectMode && selectedForms.length > 0 && (
         <div className="text-sm text-secondary mt-2 space-y-1">
           <p>
-            Selected: {selectedForms.length} form
+            Valgt: {selectedForms.length} form
             {selectedForms.length !== 1 ? "s" : ""}
           </p>
           {selectedForms.length > 1 && (
-            <p className="text-xs">Click a selected form to remove it</p>
+            <p className="text-xs">Klikk på et valgt skjema for å fjerne det</p>
           )}
         </div>
       )}
@@ -276,7 +276,7 @@ const Form = ({
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       const message =
-        "Are you sure you want to leave? Your property inquiry has not been submitted, and all details will be lost.";
+        "Er du sikker på at du vil dra? Forespørselen din om eiendommen er ikke sendt inn, og alle detaljer vil gå tapt.";
       e.returnValue = message;
       return message;
     };
@@ -412,27 +412,27 @@ const Form = ({
     (name: string, value: any, field: FormField, formIndex: number): string => {
       if (field.required) {
         if (field.name === "phone" && value?.replace(/^\+47/, "")?.length !== 8) {
-          return `${field.label} should be 8 digits`;
+          return `${field.label} skal være 8 sifre`;
         } else if (field.name === "postalCode" && value?.length !== 4) {
-          return `${field.label} should be 4 digits`;
+          return `${field.label} skal være 4 sifre`;
         } else if (
           field.type === "checkbox" &&
           Array.isArray(field.options) &&
           field.options.length > 0
         ) {
           if (!value || (Array.isArray(value) && value.length === 0)) {
-            return `Please select`;
+            return `${field.label} skal være valgt`;
           }
         } else if (field.type === "checkbox") {
           if (value !== true) {
-            return `${field.label} is required`;
+            return `${field.label} Er påkrevd`;
           }
         } else if (field.type === "file") {
           if (!value || (Array.isArray(value) && value.length === 0)) {
-            return `${field.label} is required`;
+            return `${field.label} Er påkrevd`;
           }
         } else if (!value || value.toString().trim() === "") {
-          return `${field.label} is required`;
+          return `${field.label} Er påkrevd`;
         }
       }
       if (value && value.toString().trim() !== "") {
@@ -442,13 +442,13 @@ const Form = ({
           case "email":
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(sanitizedValue)) {
-              return "Please enter a valid email address";
+              return "Vennligst skriv inn en gyldig e-postadresse";
             }
             break;
           case "number":
             const numberRegex = /^[0-9+-\s]+$/;
             if (!numberRegex.test(sanitizedValue)) {
-              return "Please enter numbers only";
+              return "Vennligst skriv bare inn tall";
             }
             break;
           case "tel":
@@ -457,7 +457,7 @@ const Form = ({
             const norwegianPhoneRegex = /^\d{8}$/;
 
             if (!norwegianPhoneRegex.test(digitsOnly)) {
-              return "Phone number must be 8 digits (e.g., 12345678)";
+              return "Telefonnummeret må være 8 sifre (f.eks. 12345678)";
             }
             break;
           case "file":
@@ -467,7 +467,7 @@ const Form = ({
                 (file: File) => file.size > maxSizeBytes
               );
               if (oversizedFiles.length > 0) {
-                return `File(s) exceed maximum size of ${field.maxSize}MB`;
+                return `Fil(er) overskrider maksimal størrelse på ${field.maxSize}MB`;
               }
             }
             break;
@@ -761,12 +761,12 @@ const Form = ({
           />
           {field.maxSize && (
             <p className="text-xs text-secondary">
-              Maximum file size: {field.maxSize}MB
+              Maksimal filstørrelse: {field.maxSize}MB
             </p>
           )}
           {value && Array.isArray(value) && value.length > 0 && (
             <div className="mt-2 space-y-1">
-              <p className="text-sm font-medium">Selected files:</p>
+              <p className="text-sm font-medium">Valgte filer:</p>
               {value?.map((file: File, i: number) => (
                 <p key={i} className="text-sm text-secondary">
                   • {file.name} ({(file.size / 1024 / 1024).toFixed(2)}MB)
@@ -794,7 +794,7 @@ const Form = ({
 
       return (
         <label key={key} className="font-medium text-small !mt-[-20px]">
-          {field.label} {field.required ? " *" : ""}
+          {field.label} <span className="text-[#ff0000]">{field.required ? " *" : ""}</span>
           <div className="flex gap-3 h-16">
             <Input
               type="text"
@@ -1106,16 +1106,16 @@ const Form = ({
         return (
           selectedForms[0]?.formData?.formName ||
           selectedForms[0]?.title ||
-          "Select Forms"
+          "Velg Skjemaer"
         );
       }
-      return "Multiple Forms Selected";
+      return "Flere skjemaer valgt";
     }
 
     return (
       currentFormData?.formName ||
       selectedForms[0]?.title ||
-      "Select a Form Type"
+      "Velg en skjematype"
     );
   };
 
@@ -1123,7 +1123,7 @@ const Form = ({
     if (companyFound || companyNotFound) return "";
 
     if (isMultiSelectMode && selectedForms.length > 1) {
-      return `You have selected ${selectedForms.length} forms to fill out.`;
+      return `Du har valgt ${selectedForms.length} skjemaer å fylle ut.`;
     }
 
     return currentFormData?.description || "";
@@ -1136,7 +1136,7 @@ const Form = ({
       !!currentForm?.errors.selectedFormType;
 
     return (
-      <div className="rounded-xl shadow-md p-8 bg-background max-w-xl mx-auto">
+      <div className="rounded-xl shadow-md px-4 py-6 sm:p-8 bg-background max-w-xl mx-auto ">
         <h3 className="text-2xl font-semibold mb-6">
           {currentStepData?.stepTitle ||
             `Step ${currentStep + 1} of ${visibleSteps.length}`}
@@ -1176,7 +1176,7 @@ const Form = ({
               className="rounded-lg border-primary px-8 w-full"
               isDisabled={submitLoading}
             >
-              Previous
+              Tidligere
             </Button>
           )}
           <Button
@@ -1186,13 +1186,13 @@ const Form = ({
             isDisabled={selectedForms.length === 0 || loading || submitLoading}
           >
             {submitLoading
-              ? "Submitting..."
+              ? "Sender inn..."
               : currentStep === visibleSteps.length - 1 &&
                 (isMultiSelectMode
                   ? currentFormIndex === selectedForms.length - 1
                   : true)
-                ? "Submit"
-                : "Next"}
+                ? "Send inn"
+                : "Neste"}
           </Button>
         </div>
 
@@ -1234,10 +1234,10 @@ const Form = ({
             </div>
           )}
 
-          <h2 className="lg:text-5xl text-[32px] mb-0 lg:mb-6 font-semibold text-primary mt-6">
+          <h1 className="lg:text-5xl text-[32px] mb-0 lg:mb-6 font-semibold text-primary mt-6">
             {/* {getLeftSideTitle()} */}
             {pageTitle}
-          </h2>
+          </h1>
           <p className="text-secondary text-sm">{pageDescription}</p>
 
           {/* {getLeftSideDescription() && (
@@ -1248,7 +1248,7 @@ const Form = ({
           {isMultiSelectMode && selectedForms.length > 1 && (
             <div className="mt-4 p-3 bg-primary/5 rounded-lg">
               <p className="text-sm text-primary font-medium">
-                📋 Selected Forms: ({currentFormIndex + 1} of{" "}
+                📋 Utvalgte skjemaer: ({currentFormIndex + 1} of{" "}
                 {selectedForms.length})
               </p>
               <div className="flex flex-wrap gap-2 mt-2">
@@ -1340,7 +1340,7 @@ const Form = ({
                 isDisabled={isFirstFormLoading || selectedForms.length === 0}
               >
                 {/* {isFirstFormLoading ? "Loading..." : "Next"} */}
-                Next
+                Neste
               </Button>
             </div>
 

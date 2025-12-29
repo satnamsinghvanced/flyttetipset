@@ -10,7 +10,7 @@ export async function GET(request: NextRequest) {
 
         if (!formSelectId) {
             return NextResponse.json(
-                { message: "formSelectId is required" },
+                { message: "formSelectId Er påkrevd" },
                 { status: 400 }
             );
         }

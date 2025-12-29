@@ -22,7 +22,7 @@ const ArticlesList = async ({
       <div
         className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto`}
         role="list"
-        aria-label={`Articles about ${category}`}
+        aria-label={`Artikler om ${category}`}
       >
         {articles?.length > 0 ? (
           articles?.map((article: any) => (
@@ -31,13 +31,13 @@ const ArticlesList = async ({
               image={article?.image}
               date={article?.showDate || article?.date}
               title={article?.title}
-              href={`/articles/${category}/${article?.slug}`}
+              href={`/artikler/${category}/${article?.slug}`}
             />
           ))
         ) : (
           <div className="col-span-full text-center py-8">
             <p className="text-lg text-secondary/50">
-              No articles found for this category.
+              No artikler found for this category.
             </p>
           </div>
         )}

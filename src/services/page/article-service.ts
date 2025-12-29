@@ -96,7 +96,6 @@ interface ArticleResponse {
     ogTitle?: string;
 }
 
-
 export const getCachedArticlesByCategory = unstable_cache(
     async ({
         categoryId,
@@ -106,10 +105,18 @@ export const getCachedArticlesByCategory = unstable_cache(
     }: GetArticlesParams): Promise<ArticleResponse> => {
         try {
             await connectDB();
-            let finalCategoryId: any | null;
+
             const skip = (page - 1) * limit;
 
-            if (categorySlug) {
+            let filter: any = {};
+            let sort: any;
+
+            if (categorySlug === "all") {
+                filter = {};
+                sort = { articlePosition: 1 };
+            }
+
+            else if (categorySlug) {
                 const category: any = await ArticleCategory.findOne({ slug: categorySlug })
                     .select("_id")
                     .lean();
@@ -120,41 +127,37 @@ export const getCachedArticlesByCategory = unstable_cache(
                         message: `Category not found for slug: ${categorySlug}`,
                     };
                 }
-                finalCategoryId = category?._id || '';
-            } else if (categoryId) {
-                // Use provided categoryId
-                finalCategoryId = categoryId;
-            } else {
-                return {
-                    success: false,
-                    message: "Please provide either categorySlug or categoryId.",
-                };
+
+                filter = { categoryId: category._id };
+                sort = { createdAt: -1 };
             }
 
-            // 2. Fetch articles and total count
-            const filter = { categoryId: finalCategoryId };
+            else if (categoryId) {
+                filter = { categoryId };
+                sort = { createdAt: -1 };
+            }
 
-            // Get total count of documents matching the filter
+            else {
+                filter = {};
+                sort = { articlePosition: 1 };
+            }
+
             const total = await Article.countDocuments(filter);
 
-            // Fetch the paginated articles
             const articles = await Article.find(filter)
-                .sort({ createdAt: -1 })
+                .sort(sort)
                 .skip(skip)
                 .limit(limit)
                 .lean();
-
-            const totalPages = Math.ceil(total / limit);
 
             return {
                 success: true,
                 count: articles.length,
                 total,
                 page,
-                totalPages,
+                totalPages: Math.ceil(total / limit),
                 data: articles,
             };
-
         } catch (error) {
             console.error("Error fetching cached articles:", error);
             return {
@@ -164,6 +167,6 @@ export const getCachedArticlesByCategory = unstable_cache(
         }
     },
     ["articles-by-category"],
-    { revalidate: 60, }
-
+    { revalidate: 60 }
 );
+

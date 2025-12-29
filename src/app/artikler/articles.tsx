@@ -22,7 +22,7 @@ const Articles = ({
 }) => {
   const articlesPerPage = 6;
 
-  if (!data || data?.length <= 0 ) {
+  if (!data || data?.length <= 0) {
     notFound()
   }
 
@@ -41,12 +41,10 @@ const Articles = ({
               {tabs?.map((tab: any) => (
                 <Link
                   key={tab?.slug}
-                  href={`?category=${tab?.slug}&page=1`}
+                  href={`/artikler/${tab?.slug}`}
                   // href={`/articles/${tab?.slug}?page=1`}
-                  className={`border border-dark/50 rounded-lg h-[46px] lg:h-16 px-4 flex items-center text-start justify-start min-w-fit lg:w-full transition-all duration-300 ${selectedCategorySlug === tab?.slug
-                    ? "bg-primary/10 text-dark font-semibold"
-                    : "bg-transparent text-dark hover:bg-gray-100"
-                    }`}
+                  className={`border border-dark/50 rounded-lg h-[46px] lg:h-16 px-4 flex items-center text-start justify-start min-w-fit lg:w-full transition-all duration-300 
+                    bg-transparent text-dark hover:bg-gray-100`}
                 >
                   <span className="text-[14px] lg:text-xl font-semibold">
                     {tab?.title}
@@ -58,7 +56,7 @@ const Articles = ({
               <div
                 className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-[792px] mx-auto"
                 role="list"
-                aria-label={`Articles about ${tabs.find((t: { slug: string; title: string }) => t.slug === selectedCategorySlug)?.title || 'Articles'}`}
+                aria-label={`Artikler om ${tabs.find((t: { slug: string; title: string }) => t.slug === selectedCategorySlug)?.title || 'Artikler'}`}
               >
                 {data?.length > 0 ? (
                   data?.map((article: any) => (
@@ -67,11 +65,11 @@ const Articles = ({
                       image={article?.image}
                       date={article?.showDate}
                       title={article?.title}
-                      href={`/articles/${selectedCategorySlug}/${article?.slug}`}
+                      href={`/artikler/${selectedCategorySlug}/${article?.slug}`}
                     />
                   ))
                 ) : (
-                  <p className="col-span-3 text-center py-8">No articles to show</p>
+                  <p className="col-span-3 text-center py-8">No artikler to show</p>
                 )}
               </div>
               {/* Pagination */}
@@ -80,7 +78,7 @@ const Articles = ({
                   <Pagination
                     currentPage={currentPage}
                     totalPages={totalPages}
-                    selectedCategorySlug={selectedCategorySlug}
+                    selectedCategorySlug={''}
                     totalItems={totalArticles}
                     itemsPerPage={articlesPerPage}
                   />

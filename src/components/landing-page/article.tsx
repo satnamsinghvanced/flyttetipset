@@ -18,7 +18,7 @@ const Article = async (heading: any) => {
               icon={index}
               heading={title}
               description={description}
-              href={`articles/${slug}`}
+              href={`artikler/${slug}`}
             />
           ))}
         </div>

@@ -14,10 +14,10 @@ export async function generateMetadata() {
   const faqPage = await getFaqPageData();
   if (!faqPage) {
     return generatePageMetadata({
-      title: "FAQ | Flyttetipset.no",
+      title: "FAQ | Meglertipset.no",
       description:
         "Frequently asked questions about real estate agents in Norway",
-      path: "/faq",
+      path: "/ofte-stilte-sporsmal",
     });
   }
   const {
@@ -40,31 +40,31 @@ export async function generateMetadata() {
   } = faqPage;
 
   return generatePageMetadata({
-    title: metaTitle || heading || "FAQ | Flyttetipset.no",
+    title: metaTitle || heading || "FAQ | Meglertipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
-    path: "/faq",
+      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+    path: "/ofte-stilte-sporsmal",
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
-      : ["flyttetipset", "real estate", "agents", "compare"],
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
+      : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Home | Flyttetipset.no",
+    ogTitle: ogTitle || metaTitle || "Home | Meglertipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
-    canonicalUrl: canonicalUrl || "/faq",
+      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+    canonicalUrl: canonicalUrl || "/ofte-stilte-sporsmal",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Flyttetipset.no",
+      name: "Meglertipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

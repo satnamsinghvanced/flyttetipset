@@ -42,7 +42,7 @@ const Footer = async ({ logoText }: FooterProps) => {
                   <Image
                     src={`${imageBaseUrl}${logoText}`}
                     width={120} height={32}
-                    alt='Flyttetipset Logo'
+                    alt='Meglertip Logo'
                     className='h-full max-md:max-h-[265px] w-full rounded-2xl'
                     loading="lazy" />
 
@@ -50,14 +50,14 @@ const Footer = async ({ logoText }: FooterProps) => {
                   <LogoText />
               }
             </div>
-            <div className="text-background flex gap-2 items-end max-md:hidden" aria-label="Social Media | Flyttetipset.no">
+            <div className="text-background flex gap-2 items-end max-md:hidden" aria-label="Social Media | Meglertipset.no">
               {socialLinks && socialLinks?.map((link: any, index: number) => (
                 <Link
                   key={index}
                   href={link.href}
                   target={link.newPage ? "_blank" : "_self"}
                   className="bg-background p-2 rounded-lg group"
-                  aria-label={`${link.icon} page Flyttetipset.no`}
+                  aria-label={`${link.icon} page Meglertipset.no`}
                 >
                   {link.icon === 'facebook' && <FaFacebook className={socialMediaClasses} />}
                   {link.icon === 'instagram' && <FaInstagram className={socialMediaClasses} />}
@@ -104,7 +104,7 @@ const Footer = async ({ logoText }: FooterProps) => {
           </div>
           <div className="flex flex-col items-baseline  gap-5">
             <div className="w-fit">
-              <div className="text-background/70 text-sm">Explore</div>
+              <div className="text-background/70 text-sm">Utforske</div>
               <div className="flex flex-col gap-2 mt-4 text-background/80">
                 {exploreLinks && exploreLinks?.map((link: any, index: number) => (
                   <Link href={link.href} key={index}>
@@ -174,7 +174,7 @@ const Footer = async ({ logoText }: FooterProps) => {
           </div>
         </div>
       </footer>
-      <div className="h-[100px] md:hidden bg-footerbg"></div>
+      {/* <div className="h-[100px] md:hidden bg-footerbg"></div> */}
     </>
   );
 };

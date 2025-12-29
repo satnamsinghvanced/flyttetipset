@@ -13,7 +13,7 @@ export async function generateMetadata() {
   const formData = await getFormData();
   if (!formData) {
     return generatePageMetadata({
-      title: "Get in touch | Flyttetipset.no",
+      title: "Get in touch | Meglertipset.no",
       description: "Fill out the form to get in touch with real estate agents",
       path: "/form",
     });
@@ -45,9 +45,9 @@ export async function generateMetadata() {
     path: slug || "/form",
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
       : ["form", "contact", "get in touch"],
     type: ogType || "website",
     image: metaImage || ogImage || image || null,
@@ -75,7 +75,7 @@ const FormPage = async () => {
       {/* <Form formSelect={formSelect} /> */}
       <Form
         formSelect={formSelect}
-        isMultiSelect={formPageData.multipleSelect}
+        isMultiSelect={formPageData?.multipleSelect}
         pageTitle={formPageData?.title}
         pageDescription={formPageData.description}
         privacyText={formPageData.privacyText}

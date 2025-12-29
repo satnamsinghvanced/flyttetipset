@@ -838,7 +838,7 @@ async function sendMailToPartners(
         );
 
         const mailOptions = {
-          from: `"Flyttetipset Lead" <${smtpData.user}>`,
+          from: `"Meglertip Lead" <${smtpData.user}>`,
           to: partner.email,
           subject: activeTemplate.subject,
           html: html,
@@ -960,7 +960,7 @@ async function sendMailToLead(
   );
 
   const mailOptions = {
-    from: `"Flyttetipset" <${smtpData.user}>`,
+    from: `"Meglertipset" <${smtpData.user}>`,
     to: userValues.email,
     subject: template.subject,
     html,

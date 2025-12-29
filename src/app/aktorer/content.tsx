@@ -25,7 +25,7 @@ const EiendomsmeglerContent = async ({ searchParams, cp, county, realestateAgent
   return (
     <>
       <div className="flex justify-center relative  ">
-        <div className="flex max-w-7xl py-10 gap-5 flex-row max-md:flex-col px-4 md:px-6 lg:px-8">
+        <div className="w-full flex gap-8 max-w-7xl m-auto py-10 pt-5 flex-row max-md:flex-col px-4 md:px-6 lg:px-8">
           <div className="w-full">
             <div className="w-full flex gap-8 bg">
               <div className="w-full">
@@ -65,7 +65,7 @@ const EiendomsmeglerContent = async ({ searchParams, cp, county, realestateAgent
               </div>
             </div>
           </div>
-          <div className="w-1/2 max-w-[346px] h-fit sticky top-24 max-md:w-full max-md:static mt-2">
+          <div className="w-1/2 max-w-[346px] h-fit sticky top-24 max-md:w-full max-md:static">
             <GetQuotes />
           </div>
         </div>

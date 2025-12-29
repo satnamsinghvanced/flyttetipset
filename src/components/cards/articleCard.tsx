@@ -37,7 +37,7 @@ const ArticlesCard = ({
                         {title}
                     </h2>
                     <div className="mt-2 flex items-center gap-2 font-semibold text-base text-primary">
-                        <span className='text-dark'> Read More </span>  <FaArrowRightLong width="28" className='text-dark' />
+                        <span className='text-dark'> Les mer </span>  <FaArrowRightLong width="28" className='text-dark' />
                     </div>
                 </div>
             </article>

@@ -15,8 +15,8 @@ export async function generateMetadata() {
   const aboutData = await getAboutData();
   if (!aboutData) {
     return generatePageMetadata({
-      title: "About | Flyttetipset.no",
-      description: "Learn more about Flyttetipset.no",
+      title: "About | Meglertipset.no",
+      description: "Learn more about Meglertipset.no",
       path: "/about",
     });
   }
@@ -40,25 +40,25 @@ export async function generateMetadata() {
     image,
   } = aboutData;
   return generatePageMetadata({
-    title: metaTitle || heading || "About Flyttetipset.no",
+    title: metaTitle || heading || "About Meglertipset.no",
     description:
-      metaDescription || subHeading || "Learn more about Flyttetipset.no",
-    path: slug || "/about",
+      metaDescription || subHeading || "Learn more about Meglertipset.no",
+    path: slug || "/om-oss",
     keywords: metaKeywords
       ? metaKeywords
           .split(",")
           ?.map((k: string) => k.trim())
           .filter(Boolean)
-      : ["about", "flyttetipset", "real estate"],
+      : ["om-oss", "meglertip", "real estate"],
     type: ogType || "website",
     image: metaImage || ogImage || image || null,
-    ogTitle: ogTitle || metaTitle || heading || "About Flyttetipset.no",
+    ogTitle: ogTitle || metaTitle || heading || "Om oss | Meglertipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
       subHeading ||
-      "Learn more about Flyttetipset.no",
-    canonicalUrl: canonicalUrl || "/about",
+      "Lær mer om Meglertipset.no",
+    canonicalUrl: canonicalUrl || "/om-oss",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},
     publishedDate: publishedDate || "2025-11-28T00:00:00Z",

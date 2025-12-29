@@ -35,14 +35,14 @@ const ArticleSecond = async ({
                 date={item.date ?? ""}
                 title={item?.title}
                 href={
-                  item.href || `/articles/${item.categoryId.slug}/${item.slug}`
+                  item.href || `/artikler/${item.categoryId.slug}/${item.slug}`
                 }
                 readMoreText="Les mer"
               />
             ))}
           </div>
           <div className="flex justify-center items-center">
-            <Link href="/articles">
+            <Link href="/artikler">
               <Button className="bg-primary text-background">
                 Se flere artikler
               </Button>

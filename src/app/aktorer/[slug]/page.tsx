@@ -27,9 +27,9 @@ export async function generateMetadata({
 
   if (!placeData?.data) {
     return generatePageMetadata({
-      title: "Eiendomsmegler | Flyttetipset.no",
-      description: "Finn eiendomsmeglere i ditt område",
-      path: `/eiendomsmegler/${slugValue}`,
+      title: "Aktorer | Meglertipset.no",
+      description: "Finn aktorer i ditt område",
+      path: `/aktorer/${slugValue}`,
     });
   }
   const {
@@ -52,36 +52,78 @@ export async function generateMetadata({
     slug,
   } = placeData.data;
 
+
+  // return {
+  //   title: metaTitle,
+  //   description: metaDescription,
+  //   keywords: metaKeywords,
+
+  //   alternates: {
+  //     canonical:
+  //       canonicalUrl || `https://meglertipset.no/eiendomsmegler/${slugValue}`,
+  //   },
+
+  //   robots: robots || "index, follow",
+
+  //   openGraph: {
+  //     title: ogTitle || metaTitle,
+  //     description: ogDescription || metaDescription,
+  //     type: ogType || "website",
+  //     images: ogImage
+  //       ? [{ url: ogImage }]
+  //       : metaImage
+  //         ? [{ url: metaImage }]
+  //         : [],
+  //   },
+
+  //   twitter: {
+  //     card: "summary_large_image",
+  //     title: ogTitle || metaTitle,
+  //     description: ogDescription || metaDescription,
+  //     images: ogImage || metaImage,
+  //   },
+
+  //   other: {
+  //     published_time: publishedDate,
+  //     modified_time: lastUpdatedDate,
+  //     jsonLd,
+  //     subHeading,
+  //     heading,
+  //     bannerImage,
+  //     slug,
+  //   },
+  // };
+
   return generatePageMetadata({
-    title: metaTitle || slug || heading || `${title} | Flyttetipset.no`,
+    title: metaTitle || slug || heading || `${title} | Meglertipset.no`,
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
-    path: `/eiendomsmegler/${slugValue}`,
+      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+    path: `/aktorer/${slugValue}`,
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
-      : ["flyttetipset", "real estate", "agents", "compare"],
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
+      : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || `${title} | Flyttetipset.no`,
+    ogTitle: ogTitle || metaTitle || `${title} | Meglertipset.no`,
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
+      "Compare top real estate agents in Norway easily with Meglertipset.no.",
     canonicalUrl: canonicalUrl
       ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
         ? canonicalUrl
-        : `/eiendomsmegler/${canonicalUrl}`
-      : `/eiendomsmegler/${slugValue}`,
+        : `/aktorer/${canonicalUrl}`
+      : `/aktorer/${slugValue}`,
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Flyttetipset.no",
+      name: "Meglertipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

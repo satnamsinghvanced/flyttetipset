@@ -1,6 +1,7 @@
 import { getCachedQuoteData } from '@/services/page/quote-service';
 import Link from 'next/link';
 import { FaCheck } from 'react-icons/fa';
+import GetQuotesMobile from './getQuotesMobile';
 
 const GetQuotes = async () => {
     const quoteDoc = await getCachedQuoteData();
@@ -27,21 +28,8 @@ const GetQuotes = async () => {
                     <p className='text-base font-bold text-primary'>  {quotes.buttonText || 'Laste mer'}</p>
                 </Link>
             </div>
-            <div className="bg-cardbg text-background px-4 md:hidden flex flex-col w-full fixed bottom-0 left-0 z-50 h-[100px] justify-center" >
-                <div className="flex justify-evenly gap-3 my-2 mt-0 text-sm">
-                    {quotes.points && Array.isArray(quotes.points) && quotes.points?.map((point: any, index: number) => (
-                        <div key={index} className="flex gap-3 items-center">
-                            <FaCheck className='mt-1 ' />
-                            <p className='text-sm'>{point}</p>
-                        </div>
-                    ))}
-                </div>
-                <div>
-                    <Link href={quotes.ctaLink || '/form'} className="bg-background w-full flex justify-center items-center h-12 rounded-lg" >
-                        <p className='text-base font-bold text-primary'>  {quotes.buttonText || 'Laste mer'}</p>
-                    </Link>
-                </div>
-            </div>
+            <GetQuotesMobile quotes={quotes} />
+
         </>
     );
 };

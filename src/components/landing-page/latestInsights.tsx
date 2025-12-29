@@ -1,18 +1,19 @@
 import { Articles } from '@/const/types'
 import RedirectButton from '../global/redirectButton'
 import LatestInsightsCard from './latestInsightsCard'
+import { formatDate } from '@/utils/formatDate'
 
-const formatDate = (date?: string | Date | null) => {
-    if (!date) return '';
+// const formatDate = (date?: string | Date | null) => {
+//     if (!date) return '';
 
-    const parsedDate = date instanceof Date ? date : new Date(date);
+//     const parsedDate = date instanceof Date ? date : new Date(date);
 
-    return parsedDate.toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-    });
-};
+//     return parsedDate.toLocaleDateString('en-US', {
+//         month: 'long',
+//         day: 'numeric',
+//         year: 'numeric',
+//     });
+// };
 
 
 const LatestInsights = ({ articlesHeading, data }: any) => {
@@ -33,10 +34,10 @@ const LatestInsights = ({ articlesHeading, data }: any) => {
                             <LatestInsightsCard
                                 key={slug}
                                 image={image ?? ''}
-                                date={formatDate(showDate)}
+                                date={formatDate(showDate as string || '')}
                                 title={title}
                                 // href={`articles/${categoryId.slug}/${slug}`}
-                                href={`${categoryId?.slug && slug ? `articles/${categoryId?.slug}/${slug}` : 'articles'}`}
+                                href={`${categoryId?.slug && slug ? `artikler/${categoryId?.slug}/${slug}` : 'artikler'}`}
                                 role="listitem"
                             />
                         )

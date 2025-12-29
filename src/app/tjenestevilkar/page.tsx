@@ -13,9 +13,9 @@ export async function generateMetadata() {
   const termsData = await getPageData();
   if (!termsData) {
     return generatePageMetadata({
-      title: "Terms of Service | Flyttetipset.no",
-      description: "Flyttetipset.no terms of service page",
-      path: "/terms-of-service",
+      title: "Terms of Service | Meglertipset.no",
+      description: "Meglertipset.no terms of service page",
+      path: "/tjenestevilkar",
     });
   }
   const {
@@ -33,29 +33,29 @@ export async function generateMetadata() {
     title,
   } = termsData;
   return generatePageMetadata({
-    title: metaTitle || title || "Terms of Service | Flyttetipset.no",
-    description: metaDescription || "Flyttetipset.no terms of service page",
-    path: "/terms-of-service",
+    title: metaTitle || title || "Terms of Service | Meglertipset.no",
+    description: metaDescription || "Meglertipset.no terms of service page",
+    path: "/tjenestevilkar",
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
       : [
-          "terms of service",
-          "flyttetipset",
-          "legal",
-          "user agreement",
-          "terms and conditions",
-        ],
+        "terms of service",
+        "meglertip",
+        "legal",
+        "user agreement",
+        "terms and conditions",
+      ],
     type: "website",
     image: metaImage || null,
-    ogTitle: ogTitle || metaTitle || title || "Terms of Service | Flyttetipset.no",
+    ogTitle: ogTitle || metaTitle || title || "Terms of Service | Meglertipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Learn the terms of service for Flyttetipset.no",
-    canonicalUrl: canonicalUrl || "/terms-of-service",
+      "Learn the terms of service for Meglertipset.no",
+    canonicalUrl: canonicalUrl || "/tjenestevilkar",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},
     publishedDate: publishedDate || "2025-11-28T00:00:00Z",
@@ -79,7 +79,7 @@ const TermsPage = async () => {
               {termsData?.title}
             </h1>
             <p className="text-primary text-base mb-8">
-              Last Update:{" "}
+              Siste oppdatering: {" "}
               {formatDate(termsData.updatedAt || termsData.createdAt)}
             </p>
             <div

@@ -15,9 +15,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const realestateAgents = await getRealestateAgentsData();
   if (!realestateAgents) {
     return generatePageMetadata({
-      title: "Real Estate Agents | Flyttetipset.no",
+      title: "Real Estate Agents | Meglertipset.no",
       description: "Compare and find the best real estate agents in Norway",
-      path: "/eiendomsmegler",
+      path: "/aktorer",
     });
   }
   const {
@@ -39,31 +39,31 @@ export async function generateMetadata(): Promise<Metadata> {
     bannerImage,
   } = realestateAgents;
   return generatePageMetadata({
-    title: metaTitle || heading || "Real Estate Agents | Flyttetipset.no",
+    title: metaTitle || heading || "Real Estate Agents | Meglertipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
-    path: "/eiendomsmegler",
+      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+    path: "/aktorer",
     keywords: metaKeywords
       ? metaKeywords
           .split(",")
           ?.map((k: string) => k.trim())
           .filter(Boolean)
-      : ["flyttetipset", "real estate", "agents", "compare"],
+      : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Real Estate Agents | Flyttetipset.no",
+    ogTitle: ogTitle || metaTitle || "Real Estate Agents | Meglertipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
-    canonicalUrl: canonicalUrl || "/eiendomsmegler",
+      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+    canonicalUrl: canonicalUrl || "/aktorer",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Flyttetipset.no",
+      name: "Meglertipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

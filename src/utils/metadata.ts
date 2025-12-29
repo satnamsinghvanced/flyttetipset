@@ -48,7 +48,7 @@ export async function generatePageMetadata({
   lastUpdatedDate?: string;
 }): Promise<Metadata> {
   const siteUrl = (
-    process.env.NEXT_PUBLIC_BASE_URL || "https://Flyttetipset.no"
+    process.env.NEXT_PUBLIC_BASE_URL || "https://meglertipset.no"
   ).replace(/\/$/, "");
 
   // Consistently use the siteUrl for canonicals.
@@ -83,12 +83,12 @@ export async function generatePageMetadata({
     : `${cleanBase}/images/og-default.jpg`;
 
   const pageTitle = title
-    ? title === "Flyttetipset.no"
-      ? `Flyttetipset.no`
-      : `${title} | Flyttetipset.no`
-    : "Flyttetipset.no";
+    ? title === "Meglertipset.no"
+      ? `Meglertipset.no`
+      : `${title} | Meglertipset.no`
+    : "Meglertipset.no";
 
-  const ogFinalTitle = ogTitle ? `${ogTitle} | Flyttetipset.no` : pageTitle;
+  const ogFinalTitle = ogTitle ? `${ogTitle} | Meglertipset.no` : pageTitle;
   const ogFinalDescription = ogDescription || description;
 
   const openGraphImages = [
@@ -105,17 +105,17 @@ export async function generatePageMetadata({
   // Handle robots meta
   const robotsMeta = robots
     ? {
-        index: !robots.noindex,
-        follow: !robots.nofollow,
-        noarchive: robots.noarchive,
-        nosnippet: robots.nosnippet,
-        noimageindex: robots.noimageindex,
-        notranslate: robots.notranslate,
-      }
+      index: !robots.noindex,
+      follow: !robots.nofollow,
+      noarchive: robots.noarchive,
+      nosnippet: robots.nosnippet,
+      noimageindex: robots.noimageindex,
+      notranslate: robots.notranslate,
+    }
     : {
-        index: true,
-        follow: true,
-      };
+      index: true,
+      follow: true,
+    };
 
   // Handle dates for article meta
   const dates: any = {};
@@ -132,8 +132,8 @@ export async function generatePageMetadata({
     ? canonicalUrl.startsWith("http")
       ? canonicalUrl
       : canonicalUrl.startsWith("/")
-      ? canonicalUrl
-      : `/${canonicalUrl}`
+        ? canonicalUrl
+        : `/${canonicalUrl}`
     : null;
 
   const finalCanonical = cleanCanonicalUrl
@@ -156,7 +156,7 @@ export async function generatePageMetadata({
       title: ogFinalTitle,
       description: ogFinalDescription,
       url: finalCanonical,
-      siteName: "Flyttetipset.no",
+      siteName: "Meglertipset.no",
       type,
       images: openGraphImages,
       ...dates,

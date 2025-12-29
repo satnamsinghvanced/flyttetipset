@@ -15,9 +15,9 @@ export async function generateMetadata() {
   const privacyPolicyData = await getPageData();
   if (!privacyPolicyData) {
     return generatePageMetadata({
-      title: "Privacy Policy | Flyttetipset.no",
-      description: "Flyttetipset.no privacy policy page",
-      path: "/privacy-policy",
+      title: "Privacy Policy | Meglertipset.no",
+      description: "Meglertipset.no privacy policy page",
+      path: "/personvernerklaring",
     });
   }
   const {
@@ -36,29 +36,29 @@ export async function generateMetadata() {
   } = privacyPolicyData;
 
   return generatePageMetadata({
-    title: metaTitle || title || "Privacy Policy | Flyttetipset.no",
-    description: metaDescription || "Flyttetipset.no privacy policy page",
-    path: "/privacy-policy",
+    title: metaTitle || title || "Privacy Policy | Meglertipset.no",
+    description: metaDescription || "Meglertipset.no privacy policy page",
+    path: "/personvernerklaring",
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
       : [
-          "privacy policy",
-          "flyttetipset",
-          "terms and conditions",
-          "data privacy",
-          "user data",
-        ],
+        "privacy policy",
+        "meglertip",
+        "terms and conditions",
+        "data privacy",
+        "user data",
+      ],
     type: "website",
     image: metaImage || null,
-    ogTitle: ogTitle || metaTitle || title || "Privacy Policy | Flyttetipset.no",
+    ogTitle: ogTitle || metaTitle || title || "Privacy Policy | Meglertipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Learn how Flyttetipset.no protects your privacy and handles your personal information.",
-    canonicalUrl: canonicalUrl || "/privacy-policy",
+      "Learn how Meglertipset.no protects your privacy and handles your personal information.",
+    canonicalUrl: canonicalUrl || "/personvernerklaring",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},
     publishedDate: publishedDate || "2025-11-28T00:00:00Z",
@@ -83,7 +83,7 @@ const PrivacyPolicyPage = async () => {
               {privacyPolicyData?.title}
             </h1>
             <p className="text-secondary text-base mb-8">
-              Last Update:{" "}
+              Siste oppdatering: {" "}
               {formatDate(
                 privacyPolicyData.updatedAt || privacyPolicyData.createdAt
               )}

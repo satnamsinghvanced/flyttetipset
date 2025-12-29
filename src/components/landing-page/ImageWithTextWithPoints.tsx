@@ -38,6 +38,9 @@ const ImageWithTextWithPoints = ({ data }: any) => {
                 ))}
               </div>
             )}
+            {data?.subHeading1 && (
+              <p className="mb-6 md:mb-12 mt-6 text-lg text-secondary">{data?.subHeading1}</p>
+            )}
 
             {/* Render belowPointsDescription if it exists */}
             {data?.belowPointsDescription && (

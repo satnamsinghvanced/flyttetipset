@@ -2,27 +2,27 @@ import { ContactField, FormErrors, FormValues } from "@/const/types";
 
 export const validateField = (value: string, field: ContactField): string => {
     if (field.required && (!value || value.trim() === '')) {
-        return `${field.label} is required`;
+        return `${field.label} Er påkrevd`;
     }
 
     switch (field.type) {
         case 'email':
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (value && !emailRegex.test(value)) {
-                return 'Please enter a valid email address.';
+                return 'Vennligst skriv inn en gyldig e-postadresse.';
             }
             break;
 
         case 'tel':
             const phoneRegex = /^[\+]?[0-9\s\-\(\)]{8,}$/;
             if (value && !phoneRegex.test(value)) {
-                return 'Please enter a valid phone number.';
+                return 'Vennligst skriv inn et gyldig telefonnummer.';
             }
             break;
 
         case 'number':
             if (value && isNaN(Number(value))) {
-                return 'Please enter a valid number.';
+                return 'Vennligst skriv inn et gyldig nummer.';
             }
             break;
 

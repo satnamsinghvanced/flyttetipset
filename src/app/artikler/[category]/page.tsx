@@ -22,7 +22,7 @@ export async function generateMetadata({
   const paramsObj = await searchParams;
   const page = parseInt(paramsObj?.page as string) || 1;
   const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || `/articles/${category}`;
+  const pathname = headersList.get("x-pathname") || `/artikler/${category}`;
   const articlesData = await getCachedArticlesByCategory({
     categorySlug: category,
     page: 1,
@@ -31,9 +31,9 @@ export async function generateMetadata({
 
   if (!articlesData?.data) {
     return generatePageMetadata({
-      title: `${category} Articles | Flyttetipset.no`,
-      description: `Read expert articles about ${category} on Flyttetipset.no.`,
-      path: `/articles/${category}`,
+      title: `${category} Artikler | Meglertipset.no`,
+      description: `Read expert articles about ${category} on Meglertipset.no.`,
+      path: `/artikler/${category}`,
     });
   }
 
@@ -55,36 +55,36 @@ export async function generateMetadata({
   const finalCanonical = canonicalUrl
     ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
       ? canonicalUrl
-      : `/articles/${canonicalUrl}`
+      : `/artikler/${canonicalUrl}`
     : page > 1
-    ? `${pathname}?page=${page}`
-    : pathname;
+      ? `${pathname}?page=${page}`
+      : pathname;
 
   return generatePageMetadata({
-    title: metaTitle || `${category} Articles | Flyttetipset.no`,
+    title: metaTitle || `${category} Artikler | Meglertipset.no`,
     description:
       metaDescription ||
-      `Read expert articles about ${category} on Flyttetipset.no.`,
+      `Read expert Artikler om ${category} on Meglertipset.no.`,
     path: pathname,
     keywords: metaKeywords
       ? metaKeywords
-          .split(",")
-          ?.map((k: string) => k.trim())
-          .filter(Boolean)
-      : ["flyttetipset", category, "real estate", "articles"],
+        .split(",")
+        ?.map((k: string) => k.trim())
+        .filter(Boolean)
+      : ["meglertip", category, "real estate", "artikler"],
     type: ogType || "website",
     image: ogImage || null,
-    ogTitle: ogTitle || metaTitle || `${category} Articles | Flyttetipset.no`,
+    ogTitle: ogTitle || metaTitle || `${category} Artikler | Meglertipset.no`,
     ogDescription:
       ogDescription ||
       metaDescription ||
-      `Explore helpful ${category} articles from Flyttetipset.no.`,
+      `Explore helpful ${category} artikler from Meglertipset.no.`,
     canonicalUrl: finalCanonical,
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "CollectionPage",
-      name: `${category} Articles`,
+      name: `${category} Artikler`,
     },
     publishedDate,
     lastUpdatedDate,
@@ -131,12 +131,11 @@ const ArticleCategoryPage = async ({
             {tabs?.map((tab: any) => (
               <Link
                 key={tab?.slug}
-                href={`/articles/${tab?.slug}`}
-                className={`border border-dark/50 rounded-lg h-[46px] lg:h-16 px-4 flex items-center text-start justify-start min-w-fit lg:w-full transition-all duration-300 ${
-                  categorySlug === tab?.slug
-                    ? "bg-primary/10 text-dark font-semibold"
-                    : "bg-transparent text-dark hover:bg-gray-100"
-                }`}
+                href={`/artikler/${tab?.slug}`}
+                className={`border border-dark/50 rounded-lg h-[46px] lg:h-16 px-4 flex items-center text-start justify-start min-w-fit lg:w-full transition-all duration-300 ${categorySlug === tab?.slug
+                  ? "bg-primary/10 text-dark font-semibold"
+                  : "bg-transparent text-dark hover:bg-gray-100"
+                  }`}
               >
                 <span className="text-[14px] lg:text-xl font-semibold">
                   {tab?.title}
