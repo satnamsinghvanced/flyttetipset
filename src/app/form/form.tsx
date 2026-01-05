@@ -10,7 +10,7 @@ import {
   Input,
   Select,
   SelectItem,
-  Textarea
+  Textarea,
 } from "@heroui/react";
 import { useCallback, useEffect, useState } from "react";
 import { FaRegCircleCheck, FaRegCircleXmark } from "react-icons/fa6";
@@ -182,10 +182,11 @@ const FormSelectionField = ({
             <button
               key={form._id}
               type="button"
-              className={`p-4 sm:p-6 rounded-lg transition-all duration-300 text-sm font-medium shadow-sm w-full flex gap-2 flex-col justify-start items-start min-h-[138px] ${isSelected
-                ? "bg-primary/20 text-primary"
-                : "bg-white text-primary"
-                } ${isInvalid && touched ? "border-danger" : ""}`}
+              className={`p-4 sm:p-6 rounded-lg transition-all duration-300 text-sm font-medium shadow-sm w-full flex gap-2 flex-col justify-start items-start min-h-[138px] ${
+                isSelected
+                  ? "bg-primary/20 text-primary"
+                  : "bg-white text-primary"
+              } ${isInvalid && touched ? "border-danger" : ""}`}
               onClick={() => onSelect(form._id)}
             >
               <div className="font-semibold text-2xl w-full text-start">
@@ -200,7 +201,7 @@ const FormSelectionField = ({
           );
         })}
       </div>
-      {isMultiSelectMode && selectedForms.length > 0 && (
+      {/* {isMultiSelectMode && selectedForms.length > 0 && (
         <div className="text-sm text-secondary mt-2 space-y-1">
           <p>
             Valgt: {selectedForms.length} form
@@ -210,7 +211,7 @@ const FormSelectionField = ({
             <p className="text-xs">Klikk på et valgt skjema for å fjerne det</p>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
@@ -311,11 +312,11 @@ const Form = ({
         prev?.map((form, i) =>
           i === index
             ? {
-              ...form,
-              formData: data,
-              loading: false,
-              step: 0, // Reset to step 0 when form loads
-            }
+                ...form,
+                formData: data,
+                loading: false,
+                step: 0, // Reset to step 0 when form loads
+              }
             : form
         )
       );
@@ -327,11 +328,11 @@ const Form = ({
         prev?.map((form, i) =>
           i === index
             ? {
-              ...form,
-              error:
-                error.message || "Failed to load form. Please try again.",
-              loading: false,
-            }
+                ...form,
+                error:
+                  error.message || "Failed to load form. Please try again.",
+                loading: false,
+              }
             : form
         )
       );
@@ -385,7 +386,7 @@ const Form = ({
     setSelectedForms(newSelectedForms);
 
     // Set current form to the newly added form
-    setCurrentFormIndex(newSelectedForms.length - 1);
+    // setCurrentFormIndex(newSelectedForms.length - 1);
 
     // Load the form data
     loadFormData(newSelectedForms.length - 1, formId);
@@ -393,7 +394,7 @@ const Form = ({
 
   const currentForm = selectedForms[currentFormIndex];
   const currentFormData = currentForm?.formData;
-  const currentStepData = currentFormData?.steps?.[currentStep];
+  // currentStepData definition moved below visibleSteps to use derived logic
 
   // Get visible steps for current form
   const getVisibleSteps = (form: SelectedForm) => {
@@ -407,11 +408,20 @@ const Form = ({
   };
 
   const visibleSteps = getVisibleSteps(currentForm);
+  const hasSelectionStep = formSelect.length > 1 && currentFormIndex === 0;
+  const effectiveStepIndex = hasSelectionStep ? currentStep - 1 : currentStep;
+
+  // Update currentStepData logic to respect effective step
+  // const currentStepData = currentFormData?.steps?.[currentStep]; // Old logic
+  const currentStepData = currentFormData?.steps?.[effectiveStepIndex];
 
   const validateField = useCallback(
     (name: string, value: any, field: FormField, formIndex: number): string => {
       if (field.required) {
-        if (field.name === "phone" && value?.replace(/^\+47/, "")?.length !== 8) {
+        if (
+          field.name === "phone" &&
+          value?.replace(/^\+47/, "")?.length !== 8
+        ) {
           return `${field.label} skal være 8 sifre`;
         } else if (field.name === "postalCode" && value?.length !== 4) {
           return `${field.label} skal være 4 sifre`;
@@ -491,8 +501,8 @@ const Form = ({
           const newErrors = error
             ? { ...form.errors, [name]: error }
             : Object.fromEntries(
-              Object.entries(form.errors).filter(([key]) => key !== name)
-            );
+                Object.entries(form.errors).filter(([key]) => key !== name)
+              );
 
           return { ...form, values: newValues, errors: newErrors };
         })
@@ -591,13 +601,13 @@ const Form = ({
             prev?.map((form, i) =>
               i === currentFormIndex
                 ? {
-                  ...form,
-                  touched: {
-                    ...form.touched,
-                    [streetField.name]: true,
-                    [postalField.name]: true,
-                  },
-                }
+                    ...form,
+                    touched: {
+                      ...form.touched,
+                      [streetField.name]: true,
+                      [postalField.name]: true,
+                    },
+                  }
                 : form
             )
           );
@@ -620,7 +630,8 @@ const Form = ({
 
   const handleNext = () => {
     if (validateCurrentStep()) {
-      if (currentStep < visibleSteps.length - 1) {
+      const totalSteps = visibleSteps.length + (hasSelectionStep ? 1 : 0);
+      if (currentStep < totalSteps - 1) {
         // Move to next step in current form
         setCurrentStep((prev) => prev + 1);
       } else {
@@ -794,7 +805,8 @@ const Form = ({
 
       return (
         <label key={key} className="font-medium text-small !mt-[-20px]">
-          {field.label} <span className="text-[#ff0000]">{field.required ? " *" : ""}</span>
+          {field.label}{" "}
+          <span className="text-[#ff0000]">{field.required ? " *" : ""}</span>
           <div className="flex gap-3 h-16">
             <Input
               type="text"
@@ -1014,7 +1026,6 @@ const Form = ({
               popoverProps={{
                 placement: "bottom",
                 shouldFlip: false,
-
               }}
               onSelectionChange={(keys) => {
                 const selectedValue = Array.from(keys).join(",");
@@ -1023,7 +1034,7 @@ const Form = ({
               }}
             >
               {availableOptions?.map((opt: string, optIndex: number) => (
-                <SelectItem key={opt || `opt-${optIndex}`} textValue={opt} >
+                <SelectItem key={opt || `opt-${optIndex}`} textValue={opt}>
                   {/* // <SelectItem key={opt || `opt-${optIndex}`} textValue={`${opt} ${optIndex}`}> */}
 
                   {opt}
@@ -1144,7 +1155,7 @@ const Form = ({
 
         <form className="flex flex-col gap-5 text-[16px] font-semibold min-h-[300px] justify-between">
           {/* Show form selection field if we're on step 0 */}
-          {formSelect.length > 1 && currentStep === 0 && (
+          {hasSelectionStep && currentStep === 0 && (
             <FormSelectionField
               formSelect={formSelect}
               selectedForms={selectedForms?.map((f) => f.id)}
@@ -1191,15 +1202,16 @@ const Form = ({
                 (isMultiSelectMode
                   ? currentFormIndex === selectedForms.length - 1
                   : true)
-                ? "Send inn"
-                : "Neste"}
+              ? "Send inn"
+              : "Neste"}
           </Button>
         </div>
 
         <p className="text-[14px] text-secondary/80 text-center mt-6 px-0 lg:px-16">
           {(() => {
-            const [primary, secondary] = privacyText.split(/:(.+)/);
-
+            const [primary, secondary] = privacyText
+              ? privacyText.split(/:(.+)/)
+              : ["", ""];
             return (
               <span>
                 <span className="text-primary font-medium">{primary}:</span>{" "}
@@ -1212,8 +1224,15 @@ const Form = ({
     );
   };
 
+  const allFormSteps = selectedForms.flatMap((f) => getVisibleSteps(f));
   const steps =
-    visibleSteps?.length > 0 ? visibleSteps : Array.from({ length: 4 });
+    allFormSteps?.length > 0 ? allFormSteps : Array.from({ length: 4 });
+
+  const previousFormsStepsCount = selectedForms
+    .slice(0, currentFormIndex)
+    .reduce((acc, f) => acc + getVisibleSteps(f).length, 0);
+
+  const globalCurrentStep = previousFormsStepsCount + effectiveStepIndex;
 
   return (
     <div className="flex flex-col-reverse lg:flex-row justify-center w-full">
@@ -1222,22 +1241,29 @@ const Form = ({
         <div className="max-w-xl flex flex-col max-lg:flex-col-reverse">
           {/* Progress steps - only show if we have steps */}
 
-          {steps.length > 0 && (
-            <div className="flex gap-10 justify-center md:justify-start mb-4 max-lg:hidden">
+          {steps.length > 0 && !(hasSelectionStep && currentStep === 0) && (
+            <div
+              className={`flex ${
+                steps.length > 5 ? "gap-2" : "gap-10"
+              } justify-center md:justify-start mb-4 max-lg:hidden`}
+            >
               {steps?.map((_, i: number) => (
                 <div
                   key={i}
-                  className={`h-6 w-[110px] flex-1 rounded-full ${i <= currentStep ? "bg-formsteps" : "bg-secondary/20"
-                    }`}
+                  className={`h-6 flex-1 rounded-full ${
+                    i <= globalCurrentStep ? "bg-formsteps" : "bg-secondary/20"
+                  }`}
                 />
               ))}
             </div>
           )}
 
           <h1 className="lg:text-5xl text-[32px] mb-0 lg:mb-6 font-semibold text-primary mt-6">
-            {/* {getLeftSideTitle()} */}
-            {pageTitle}
+            {hasSelectionStep && currentStep === 0
+              ? pageTitle
+              : "Gjør det billigst! Bli kontaktet av opptil 5 lokale meglere. "}
           </h1>
+
           <p className="text-secondary text-sm">{pageDescription}</p>
 
           {/* {getLeftSideDescription() && (
@@ -1245,7 +1271,7 @@ const Form = ({
           )} */}
 
           {/* Show multi-select info */}
-          {isMultiSelectMode && selectedForms.length > 1 && (
+          {/* {isMultiSelectMode && selectedForms.length > 1 && (
             <div className="mt-4 p-3 bg-primary/5 rounded-lg">
               <p className="text-sm text-primary font-medium">
                 📋 Utvalgte skjemaer: ({currentFormIndex + 1} of{" "}
@@ -1260,30 +1286,32 @@ const Form = ({
                       setCurrentFormIndex(index);
                       setCurrentStep(0);
                     }}
-                    className={`px-3 py-1 text-xs rounded-full ${index === currentFormIndex
-                      ? "bg-primary text-white"
-                      : "bg-white text-primary border border-primary"
-                      }`}
+                    className={`px-3 py-1 text-xs rounded-full ${
+                      index === currentFormIndex
+                        ? "bg-primary text-white"
+                        : "bg-white text-primary border border-primary"
+                    }`}
                   >
                     {form?.title}
                   </button>
                 ))}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </div>
 
       {/* Right Section - Changes based on state */}
       <div className="w-full bg-accent lg:py-16 py-10 px-4 md:px-6 lg:px-8">
         {/* Mobile progress steps - only show if we have steps */}
-        {visibleSteps.length > 0 && (
-          <div className="hidden gap-2 justify-center md:justify-start mb-12 max-lg:flex max-w-xl mx-auto">
-            {visibleSteps?.map((_, i: number) => (
+        {steps.length > 0 && !(hasSelectionStep && currentStep === 0) && (
+          <div className="hidden gap-2 justify-center md:justify-start mt-8 max-lg:flex max-w-xl mx-auto">
+            {steps?.map((_, i: number) => (
               <div
                 key={i}
-                className={`h-2 flex-1 rounded-full ${i <= currentStep ? "bg-formsteps" : "bg-secondary/20"
-                  }`}
+                className={`h-2 flex-1 rounded-full ${
+                  i <= globalCurrentStep ? "bg-formsteps" : "bg-secondary/20"
+                }`}
               />
             ))}
           </div>
@@ -1323,13 +1351,14 @@ const Form = ({
             <h3 className="text-2xl font-semibold mb-6">Step 1</h3>
 
             <div className="flex flex-col gap-[55px] text-[16px] font-semibold min-h-[300px]">
-              {formSelect.length > 1 && < FormSelectionField
-                formSelect={formSelect}
-                selectedForms={selectedForms?.map((f) => f.id)}
-                onSelect={handleFormSelect}
-                isMultiSelectMode={isMultiSelectMode}
-              />}
-
+              {formSelect.length > 1 && (
+                <FormSelectionField
+                  formSelect={formSelect}
+                  selectedForms={selectedForms?.map((f) => f.id)}
+                  onSelect={handleFormSelect}
+                  isMultiSelectMode={isMultiSelectMode}
+                />
+              )}
             </div>
 
             <div className="flex justify-between mt-8 gap-4">
@@ -1346,8 +1375,9 @@ const Form = ({
 
             <p className="text-[14px] text-secondary/80 text-center mt-6 px-0 lg:px-16">
               {(() => {
-                const [primary, secondary] = privacyText.split(/:(.+)/);
-
+                const [primary, secondary] = privacyText
+                  ? privacyText.split(/:(.+)/)
+                  : ["", ""];
                 return (
                   <span>
                     <span className="text-primary font-medium">{primary}:</span>{" "}

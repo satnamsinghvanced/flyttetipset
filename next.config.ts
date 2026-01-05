@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  htmlLimitedBots: /.*/,
   images: {
     domains: ["flyttetipset.no"],
     remotePatterns: [
