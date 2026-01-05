@@ -8,13 +8,18 @@ const getArticlePageData = async () => {
   const doc = await getCachedArticlesPageData();
   return await JSON.parse(JSON.stringify(doc));
 };
-
-export async function generateMetadata() {
+interface PageProps {
+  searchParams: {
+    page?: string;
+  };
+}
+export async function generateMetadata({ searchParams }: PageProps) {
+  const page = await searchParams;
   const articlesPage = await getArticlePageData();
   if (!articlesPage) {
     return generatePageMetadata({
-      title: "Artikler | Meglertipset.no",
-      description: "Read expert Artikler about real estate in Norway",
+      title: "Artikler | Flyttetipset.no",
+      description: "Read expert Artikler about flyttetipset in Norway",
       path: "/artikler",
     });
   }
@@ -37,11 +42,11 @@ export async function generateMetadata() {
     bannerImage,
   } = articlesPage;
   return generatePageMetadata({
-    title: metaTitle || heading || "Artikler | Meglertipset.no",
+    title: metaTitle || heading || "Artikler | Flyttetipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
     path: "/artikler",
     keywords: metaKeywords
       ? metaKeywords
@@ -51,17 +56,17 @@ export async function generateMetadata() {
       : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Home | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || "Home | flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
-    canonicalUrl: canonicalUrl || "/artikler",
+      "Compare top real estate agents in Norway easily with flyttetipset.no.",
+    canonicalUrl: `${page.page ? `${canonicalUrl}?page=${page.page}` : canonicalUrl}` || "/artikler",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

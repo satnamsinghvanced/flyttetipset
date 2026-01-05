@@ -52,7 +52,7 @@ export async function generateMetadata({
     lastUpdatedDate,
   } = articlesData.data ?? {};
 
-  const finalCanonical = canonicalUrl
+ const finalCanonical = canonicalUrl
     ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
       ? canonicalUrl
       : `/artikler/${canonicalUrl}`
