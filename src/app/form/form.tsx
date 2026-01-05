@@ -1257,6 +1257,15 @@ const Form = ({
               ))}
             </div>
           )}
+          {hasSelectionStep && currentStep === 0 && (
+            <div
+              className={
+                "flex gap-10 justify-center md:justify-start mb-4 max-lg:hidden"
+              }
+            >
+              <div className={`h-6 flex-1 rounded-full ${"bg-formsteps"}`} />
+            </div>
+          )}
 
           <h1 className="lg:text-5xl text-[32px] mb-0 lg:mb-6 font-semibold text-primary mt-6">
             {hasSelectionStep && currentStep === 0
