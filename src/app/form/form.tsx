@@ -400,8 +400,30 @@ const Form = ({
   const getVisibleSteps = (form: SelectedForm) => {
     if (!form?.formData?.steps) return [];
 
+    const SUPPORTED_TYPES = [
+      "text",
+      "email",
+      "number",
+      "tel",
+      "phone",
+      "textArea",
+      "radio",
+      "dropdown",
+      "checkbox",
+      "file",
+    ];
+
     return form.formData.steps
-      .filter((s: FormStep) => s.visible !== false && s.fields?.length > 0)
+      .filter(
+        (s: FormStep) =>
+          s.visible !== false &&
+          s.fields?.some(
+            (f) =>
+              f.visible !== false &&
+              f.name !== "selectedFormType" &&
+              SUPPORTED_TYPES.includes(f.type)
+          )
+      )
       .sort(
         (a: FormStep, b: FormStep) => (a.stepOrder || 0) - (b.stepOrder || 0)
       );
@@ -411,9 +433,8 @@ const Form = ({
   const hasSelectionStep = formSelect.length > 1 && currentFormIndex === 0;
   const effectiveStepIndex = hasSelectionStep ? currentStep - 1 : currentStep;
 
-  // Update currentStepData logic to respect effective step
-  // const currentStepData = currentFormData?.steps?.[currentStep]; // Old logic
-  const currentStepData = currentFormData?.steps?.[effectiveStepIndex];
+  // Update currentStepData logic to respect effective step and use visibleSteps to ensure sync
+  const currentStepData = visibleSteps?.[effectiveStepIndex];
 
   const validateField = useCallback(
     (name: string, value: any, field: FormField, formIndex: number): string => {
@@ -734,7 +755,9 @@ const Form = ({
     const value = currentFormData?.values[field.name] || "";
 
     const fieldProps = {
-      key: `${field._id}-${formIndex}-${index}`,
+      key: `${
+        field._id || "field"
+      }-${formIndex}-${effectiveStepIndex}-${index}`,
       type: field.type,
       label: `${field.label}${field.required ? " *" : ""}`,
       placeholder: field.placeholder || " ",
@@ -1150,7 +1173,9 @@ const Form = ({
       <div className="rounded-xl shadow-md px-4 py-6 sm:p-8 bg-background max-w-xl mx-auto ">
         <h3 className="text-2xl font-semibold mb-6">
           {currentStepData?.stepTitle ||
-            `Step ${currentStep + 1} of ${visibleSteps.length}`}
+            `Steg ${currentStep + 1} of ${
+              visibleSteps.length + (hasSelectionStep ? 1 : 0)
+            }`}
         </h3>
 
         <form className="flex flex-col gap-5 text-[16px] font-semibold min-h-[300px] justify-between">
@@ -1198,7 +1223,8 @@ const Form = ({
           >
             {submitLoading
               ? "Sender inn..."
-              : currentStep === visibleSteps.length - 1 &&
+              : currentStep ===
+                  visibleSteps.length - (hasSelectionStep ? 0 : 1) &&
                 (isMultiSelectMode
                   ? currentFormIndex === selectedForms.length - 1
                   : true)
