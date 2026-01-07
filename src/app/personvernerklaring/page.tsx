@@ -15,8 +15,8 @@ export async function generateMetadata() {
   const privacyPolicyData = await getPageData();
   if (!privacyPolicyData) {
     return generatePageMetadata({
-      title: "Privacy Policy | Meglertipset.no",
-      description: "Meglertipset.no privacy policy page",
+      title: "Privacy Policy | Flyttetipset.no",
+      description: "Flyttetipset.no privacy policy page",
       path: "/personvernerklaring",
     });
   }
@@ -36,8 +36,8 @@ export async function generateMetadata() {
   } = privacyPolicyData;
 
   return generatePageMetadata({
-    title: metaTitle || title || "Privacy Policy | Meglertipset.no",
-    description: metaDescription || "Meglertipset.no privacy policy page",
+    title: metaTitle || title || "Privacy Policy | Flyttetipset.no",
+    description: metaDescription || "Flyttetipset.no privacy policy page",
     path: "/personvernerklaring",
     keywords: metaKeywords
       ? metaKeywords
@@ -53,11 +53,11 @@ export async function generateMetadata() {
       ],
     type: "website",
     image: metaImage || null,
-    ogTitle: ogTitle || metaTitle || title || "Privacy Policy | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || title || "Privacy Policy | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Learn how Meglertipset.no protects your privacy and handles your personal information.",
+      "Learn how Flyttetipset.no protects your privacy and handles your personal information.",
     canonicalUrl: canonicalUrl || "/personvernerklaring",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},

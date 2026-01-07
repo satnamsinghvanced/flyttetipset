@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const realestateAgents = await getRealestateAgentsData();
   if (!realestateAgents) {
     return generatePageMetadata({
-      title: "Real Estate Agents | Meglertipset.no",
+      title: "Real Estate Agents | Flyttetipset.no",
       description: "Compare and find the best real estate agents in Norway",
       path: "/aktorer",
     });
@@ -39,11 +39,11 @@ export async function generateMetadata(): Promise<Metadata> {
     bannerImage,
   } = realestateAgents;
   return generatePageMetadata({
-    title: metaTitle || heading || "Real Estate Agents | Meglertipset.no",
+    title: metaTitle || heading || "Real Estate Agents | Flyttetipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
     path: "/aktorer",
     keywords: metaKeywords
       ? metaKeywords
@@ -53,17 +53,17 @@ export async function generateMetadata(): Promise<Metadata> {
       : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Real Estate Agents | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || "Real Estate Agents | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
     canonicalUrl: canonicalUrl || "/aktorer",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "Flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

@@ -27,7 +27,7 @@ export async function generateMetadata({
 
   if (!placeData?.data) {
     return generatePageMetadata({
-      title: "Aktorer | Meglertipset.no",
+      title: "Aktorer | Flyttetipset.no",
       description: "Finn aktorer i ditt område",
       path: `/aktorer/${slugValue}`,
     });
@@ -60,7 +60,7 @@ export async function generateMetadata({
 
   //   alternates: {
   //     canonical:
-  //       canonicalUrl || `https://meglertipset.no/eiendomsmegler/${slugValue}`,
+  //       canonicalUrl || `https://Flyttetipset.no/eiendomsmegler/${slugValue}`,
   //   },
 
   //   robots: robots || "index, follow",
@@ -95,11 +95,11 @@ export async function generateMetadata({
   // };
 
   return generatePageMetadata({
-    title: metaTitle || slug || heading || `${title} | Meglertipset.no`,
+    title: metaTitle || slug || heading || `${title} | Flyttetipset.no`,
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
     path: `/aktorer/${slugValue}`,
     keywords: metaKeywords
       ? metaKeywords
@@ -109,11 +109,11 @@ export async function generateMetadata({
       : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || `${title} | Meglertipset.no`,
+    ogTitle: ogTitle || metaTitle || `${title} | Flyttetipset.no`,
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
     canonicalUrl: canonicalUrl
       ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
         ? canonicalUrl
@@ -123,7 +123,7 @@ export async function generateMetadata({
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "Flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

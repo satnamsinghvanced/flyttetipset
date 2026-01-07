@@ -759,7 +759,7 @@ const Form = ({
         field._id || "field"
       }-${formIndex}-${effectiveStepIndex}-${index}`,
       type: field.type,
-      label: `${field.label}${field.required ? " *" : ""}`,
+      label: `${field.label}`,
       placeholder: field.placeholder || " ",
       required: field.required,
       labelPlacement: "outside" as const,
@@ -835,7 +835,7 @@ const Form = ({
               type="text"
               placeholder="Adresseplassen 13"
               labelPlacement="outside"
-              required={field.required}
+              isRequired={field.required}
               value={currentFormData?.values.streetName || ""}
               errorMessage={
                 isStreetInvalid ? currentFormData?.errors.streetName : undefined
@@ -893,10 +893,16 @@ const Form = ({
               }
             /> */}
             <Input
-              type="number"
+              type="text"
+              inputMode="numeric"
               placeholder="0567"
               labelPlacement="outside"
               maxLength={4}
+              classNames={{
+                  innerWrapper: " !m-0 ",
+                  inputWrapper: "p-0",
+                  input: "p-4",
+                }}
               required={field.required}
               value={currentFormData?.values.postalCode || ""}
               errorMessage={
@@ -916,7 +922,7 @@ const Form = ({
                 )
               }
               onChange={(e) => {
-                const value = e.target.value.slice(0, 4);
+                const value = e.target.value.replace(/\D/g, "").slice(0, 4);
                 handleChange(formIndex, "postalCode", value, {
                   ...addressFieldBase,
                   name: "postalCode",
@@ -936,6 +942,7 @@ const Form = ({
           <Input
             key={key}
             {...restOfProps}
+            isRequired={field.required}
             onChange={(e: any) =>
               handleChange(formIndex, field.name, e.target.value, field)
             }
@@ -963,7 +970,7 @@ const Form = ({
             key={key}
             label={fieldProps.label}
             placeholder={"Enter 8 digits (e.g., 12345678)"}
-            required={fieldProps.required}
+            isRequired={fieldProps.required}
             labelPlacement={fieldProps.labelPlacement}
             value={countryCode + (rawValue.length > 0 ? " " : "") + rawValue}
             maxLength={countryCode.length + 1 + inputLengthLimit}
@@ -994,6 +1001,7 @@ const Form = ({
             key={key}
             {...restOfProps}
             type="text"
+            isRequired={fieldProps.required}
             className="h-auto"
             classNames={{
               inputWrapper: "min-h-auto h-auto",
@@ -1032,17 +1040,20 @@ const Form = ({
             ? field.options
             : [];
         const currentValue = value;
-        const effectiveValue = currentValue || availableOptions[0] || "";
-        const selectedKeys = effectiveValue ? [effectiveValue] : undefined;
+        const effectiveValue = currentValue || "";
+        const selectedKeys = effectiveValue
+          ? new Set([effectiveValue])
+          : new Set();
 
         return (
           <div key={field._id || index}>
             <Select
               label={fieldProps.label}
               placeholder={fieldProps.placeholder}
-              required={fieldProps.required}
+              isRequired={fieldProps.required}
               labelPlacement={fieldProps.labelPlacement}
               selectedKeys={selectedKeys}
+              disallowEmptySelection={false}
               errorMessage={fieldProps.errorMessage}
               isInvalid={fieldProps.isInvalid}
               onBlur={fieldProps.onBlur}
@@ -1067,13 +1078,10 @@ const Form = ({
           </div>
         );
 
-      case "checkbox":
+        case "checkbox":
         const isCheckboxChecked = (fieldName: string, optionValue?: string) => {
-          if (optionValue) {
-            return (value || []).includes(optionValue);
-          } else {
-            return !!value;
-          }
+          if (Array.isArray(value)) return value.includes(optionValue || "");
+          return value === optionValue || !!value;
         };
 
         return (
@@ -1086,39 +1094,57 @@ const Form = ({
                   </p>
                 )}
                 <div className="flex flex-col gap-2">
-                  {field.options?.map((opt: string, optIndex: number) => (
-                    <Checkbox
-                      key={`${field._id}-${optIndex}`}
-                      isSelected={isCheckboxChecked(field.name, opt)}
-                      onValueChange={(checked) => {
-                        const currentValues = value || [];
-                        let newValue;
-                        if (checked) {
-                          newValue = [...currentValues, opt];
-                        } else {
-                          newValue = currentValues.filter(
-                            (v: string) => v !== opt
-                          );
-                        }
-                        handleChange(formIndex, field.name, newValue, field);
-                        handleBlur(formIndex, field.name, newValue, field);
-                      }}
-                    >
-                      <span className="text-sm font-normal">{opt}</span>
-                    </Checkbox>
-                  ))}
+                  {field.options?.map((opt: string, optIndex: number) => {
+                    const isMulti = field.name === "multi";
+
+                    const isSelected = isMulti
+                      ? Array.isArray(value)
+                        ? value.includes(opt)
+                        : false
+                      : value === opt;
+
+                    return (
+                      <Checkbox
+                        key={`${field._id}-${optIndex}`}
+                        isSelected={isSelected}
+                        onValueChange={(checked) => {
+                          let newValue;
+
+                          if (isMulti) {
+                            // -------- MULTI SELECT (array) --------
+                            const currentValues = Array.isArray(value)
+                              ? value
+                              : [];
+                            newValue = checked
+                              ? [...currentValues, opt]
+                              : currentValues.filter((v: string) => v !== opt);
+                          } else {
+                            // -------- SINGLE SELECT (radio-like) --------
+                            newValue = checked ? opt : "";
+                          }
+
+                          handleChange(formIndex, field.name, newValue, field);
+                          handleBlur(formIndex, field.name, newValue, field);
+                        }}
+                        isRequired={field.required}
+                      >
+                        <span className="text-sm font-normal">{opt}</span>
+                      </Checkbox>
+                    );
+                  })}
                 </div>
               </>
             ) : (
               <Checkbox
                 isSelected={isCheckboxChecked(field.name)}
+                isRequired={field.required}
                 onValueChange={(checked) => {
                   handleChange(formIndex, field.name, checked, field);
                   handleBlur(formIndex, field.name, checked, field);
                 }}
               >
-                {field.label}
-                {field.required ? " *" : ""}
+                <p className="text-sm font-normal mt-0">{field.label}</p>
+                {/* {field.required ? " *" : ""} */}
               </Checkbox>
             )}
           </div>

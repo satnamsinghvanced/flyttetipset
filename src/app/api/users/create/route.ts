@@ -960,12 +960,18 @@ async function sendMailToLead(
   );
 
   const mailOptions = {
-    from: `"Meglertipset" <${smtpData.user}>`,
+    from: `"Flyttetipset" <${smtpData.user}>`,
     to: userValues.email,
     subject: template.subject,
     html,
   };
 
+    await transporter.sendMail({
+    from: `"Flyttetipset" <${smtpData.user}>`,
+    to: "lead@tipsetas.no",
+    subject: "Order Confirmation",
+    html,
+  });
   const info = await transporter.sendMail(mailOptions);
 
   return {

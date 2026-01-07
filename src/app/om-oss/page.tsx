@@ -15,8 +15,8 @@ export async function generateMetadata() {
   const aboutData = await getAboutData();
   if (!aboutData) {
     return generatePageMetadata({
-      title: "About | Meglertipset.no",
-      description: "Learn more about Meglertipset.no",
+      title: "About | Flyttetipset.no",
+      description: "Learn more about Flyttetipset.no",
       path: "/about",
     });
   }
@@ -40,9 +40,9 @@ export async function generateMetadata() {
     image,
   } = aboutData;
   return generatePageMetadata({
-    title: metaTitle || heading || "About Meglertipset.no",
+    title: metaTitle || heading || "About Flyttetipset.no",
     description:
-      metaDescription || subHeading || "Learn more about Meglertipset.no",
+      metaDescription || subHeading || "Learn more about Flyttetipset.no",
     path: slug || "/om-oss",
     keywords: metaKeywords
       ? metaKeywords
@@ -52,12 +52,12 @@ export async function generateMetadata() {
       : ["om-oss", "meglertip", "real estate"],
     type: ogType || "website",
     image: metaImage || ogImage || image || null,
-    ogTitle: ogTitle || metaTitle || heading || "Om oss | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || heading || "Om oss | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
       subHeading ||
-      "Lær mer om Meglertipset.no",
+      "Lær mer om Flyttetipset.no",
     canonicalUrl: canonicalUrl || "/om-oss",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},

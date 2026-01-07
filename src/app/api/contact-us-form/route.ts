@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
             });
 
             await transporter.sendMail({
-                from: `"Meglertipset" <${smtpData.fromEmail}>`,
+                from: `"Flyttetipset" <${smtpData.fromEmail}>`,
                 to: "hei@tipsetas.no",
                 subject: template.subject,
                 html: htmlBody,

@@ -50,14 +50,14 @@ const Footer = async ({ logoText }: FooterProps) => {
                   <LogoText />
               }
             </div>
-            <div className="text-background flex gap-2 items-end max-md:hidden" aria-label="Social Media | Meglertipset.no">
+            <div className="text-background flex gap-2 items-end max-md:hidden" aria-label="Social Media | Flyttetipset.no">
               {socialLinks && socialLinks?.map((link: any, index: number) => (
                 <Link
                   key={index}
                   href={link.href}
                   target={link.newPage ? "_blank" : "_self"}
                   className="bg-background p-2 rounded-lg group"
-                  aria-label={`${link.icon} page Meglertipset.no`}
+                  aria-label={`${link.icon} page Flyttetipset.no`}
                 >
                   {link.icon === 'facebook' && <FaFacebook className={socialMediaClasses} />}
                   {link.icon === 'instagram' && <FaInstagram className={socialMediaClasses} />}

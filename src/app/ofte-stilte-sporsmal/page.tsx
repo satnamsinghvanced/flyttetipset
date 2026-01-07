@@ -14,7 +14,7 @@ export async function generateMetadata() {
   const faqPage = await getFaqPageData();
   if (!faqPage) {
     return generatePageMetadata({
-      title: "FAQ | Meglertipset.no",
+      title: "FAQ | Flyttetipset.no",
       description:
         "Frequently asked questions about real estate agents in Norway",
       path: "/ofte-stilte-sporsmal",
@@ -40,11 +40,11 @@ export async function generateMetadata() {
   } = faqPage;
 
   return generatePageMetadata({
-    title: metaTitle || heading || "FAQ | Meglertipset.no",
+    title: metaTitle || heading || "FAQ | Flyttetipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
     path: "/ofte-stilte-sporsmal",
     keywords: metaKeywords
       ? metaKeywords
@@ -54,17 +54,17 @@ export async function generateMetadata() {
       : ["meglertip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Home | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || "Home | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
     canonicalUrl: canonicalUrl || "/ofte-stilte-sporsmal",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "Flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,
