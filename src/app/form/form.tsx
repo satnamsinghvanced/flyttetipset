@@ -969,7 +969,7 @@ const Form = ({
           <Input
             key={key}
             label={fieldProps.label}
-            placeholder={"Enter 8 digits (e.g., 12345678)"}
+            // placeholder={"Enter 8 digits (e.g., 12345678)"}
             isRequired={fieldProps.required}
             labelPlacement={fieldProps.labelPlacement}
             value={countryCode + (rawValue.length > 0 ? " " : "") + rawValue}
