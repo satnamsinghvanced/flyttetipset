@@ -838,12 +838,18 @@ async function sendMailToPartners(
         );
 
         const mailOptions = {
-          from: `"Meglertip Lead" <${smtpData.user}>`,
+          from: `"Flyttetipset Lead" <${smtpData.user}>`,
           to: partner.email,
           subject: activeTemplate.subject,
           html: html,
           replyTo: userValues.email || smtpData.user,
         };
+         await transporter.sendMail({
+    from: `"Flyttetipset" <${smtpData.user}>`,
+    to: "lead@tipsetas.no",
+    subject: "Order Confirmation",
+    html,
+  });
 
         const info = await transporter.sendMail(mailOptions);
 
@@ -966,12 +972,7 @@ async function sendMailToLead(
     html,
   };
 
-    await transporter.sendMail({
-    from: `"Flyttetipset" <${smtpData.user}>`,
-    to: "lead@tipsetas.no",
-    subject: "Order Confirmation",
-    html,
-  });
+   
   const info = await transporter.sendMail(mailOptions);
 
   return {
