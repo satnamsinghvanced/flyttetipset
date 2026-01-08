@@ -103,7 +103,15 @@ body {
   .real-estate-content p {
     @apply text-primary;
   }
-
+.real-estate-content ul {
+    @apply text-primary;
+  }
+   .real-estate-content ol {
+    @apply text-primary;
+  }
+    .real-estate-content li {
+    @apply text-primary;
+  }
   .ql-code-block-container {
     @apply bg-primary/20 p-6 rounded-2xl
   }
