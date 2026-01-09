@@ -17,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
     return generatePageMetadata({
       title: "Real Estate Agents | Flyttetipset.no",
       description: "Compare and find the best real estate agents in Norway",
-      path: "/aktorer",
+      path: "/flyttebyra",
     });
   }
   const {
@@ -44,7 +44,7 @@ export async function generateMetadata(): Promise<Metadata> {
       metaDescription ||
       subHeading ||
       "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
-    path: "/aktorer",
+    path: "/flyttebyra",
     keywords: metaKeywords
       ? metaKeywords
           .split(",")
@@ -58,7 +58,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ogDescription ||
       metaDescription ||
       "Compare top real estate agents in Norway easily with Flyttetipset.no.",
-    canonicalUrl: canonicalUrl || "/aktorer",
+    canonicalUrl: canonicalUrl || "/flyttebyra",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",

@@ -66,7 +66,7 @@ const AgentCard = ({
 
           <Link
             className="flex justify-center items-center w-36 h-10 max-sm:hidden bg-transparent border border-primary text-primary rounded-xl hover:bg-primary hover:text-background transition-all ease-in-out duration-300"
-            href={`/aktorer/${slug ? slug.replace(/\s+/g, "") : "default_slug"
+            href={`/flyttebyra/${slug ? slug.replace(/\s+/g, "") : "default_slug"
               }`}
           >
             <span>Se profil</span>
@@ -81,7 +81,7 @@ const AgentCard = ({
           ></div>
           <Link
             className="px-8 !w-[185px] !h-[48px] mt-[24px] flex justify-center items-center sm:hidden bg-transparent border border-primary text-primary rounded-xl hover:bg-primary hover:text-background transition-all ease-in-out duration-300"
-            href={`/aktorer/${slug ? slug.replace(/\s+/g, "") : "default_slug"
+            href={`/flyttebyra/${slug ? slug.replace(/\s+/g, "") : "default_slug"
               }`}
           >
             <span>Se profil ddd</span>
