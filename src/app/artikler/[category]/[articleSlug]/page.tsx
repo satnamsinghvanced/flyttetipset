@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: SlugPageProps) {
   } = article ?? {};
 
   return generatePageMetadata({
-    title: metaTitle || `${title} | Flyttetipset.no`,
+    title: metaTitle || article?.title || title || "Artikler",
     description:
       metaDescription || `Read expert artikler about ${title} on Flyttetipset.no.`,
     path: `/artikler/${articleCategory}/${slug}`,

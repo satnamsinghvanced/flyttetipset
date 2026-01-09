@@ -52,8 +52,8 @@ body {
     @apply text-primary font-medium lg:text-[40px] text-[24px] lg:mb-4 mb-4 leading-[1.2];
   }
 
-  .article-content h2 {
-    @apply text-primary font-medium lg:text-[40px] text-[24px] mt-8 lg:mb-4 mb-4 leading-[1.2];
+   .article-content h2 {
+    @apply text-primary font-medium lg:text-[40px] text-[22px] mt-8 lg:mb-4 mb-4 leading-[1.2];
   }
 
   .article-content span {
@@ -61,7 +61,7 @@ body {
   }
 
   .article-content h3 {
-    @apply text-primary font-medium lg:text-[40px] text-[24px] lg:mb-4 mb-4 leading-[1.2];
+    @apply text-primary font-medium lg:text-[30px] text-[18px] lg:mb-4 mb-4 leading-[1.2];
   }
 
   .article-content h5 {
