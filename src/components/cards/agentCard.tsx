@@ -50,12 +50,12 @@ const AgentCard = ({
             <h6 className="font-semibold text-[32px] max-lg:!text-[20px] text-primary pb-0.5 leading-7">
               {companyName}
             </h6>
-            {averageRating && (
+            {(averageRating !== 0 && totalRating !== 0) && (
               <Star averageRating={averageRating} totalRating={totalRating} />
             )}
 
-            <div className="pt-3 flex gap-2 flex-wrap">
-              {features &&
+            <div className={`pt-3 flex gap-2 flex-wrap`}>
+               {(features && features.length > 0) &&
                 features
                   .slice(0, 4)
                   ?.map((features, index) => (
