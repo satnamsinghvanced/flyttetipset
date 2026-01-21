@@ -63,7 +63,7 @@ const Pagination = ({
         {/* Previous Page Button */}
         {currentPage > 1 ? (
           <Link
-            href={`?category=${selectedCategorySlug}&page=${currentPage - 1}#article_section`}
+            href={`${selectedCategorySlug && `?category=${selectedCategorySlug}`}${selectedCategorySlug ? `&` : `?`}page=${currentPage - 1}#article_section`}
             aria-label="Previous page"
             className="rounded-full !p-0 min-w-6.5 h-6.5 bg-secondary/20 flex justify-center items-center hover:bg-secondary/30 transition-colors"
           >
@@ -103,7 +103,7 @@ const Pagination = ({
         {/* Next Page Button */}
         {currentPage < totalPages ? (
           <Link
-            href={`?category=${selectedCategorySlug}&page=${currentPage + 1}#article_section`}
+            href={`${selectedCategorySlug && `?category=${selectedCategorySlug}`}${selectedCategorySlug ? `&` : `?`}page=${currentPage + 1}#article_section`}
             aria-label="Next page"
             className="rounded-full !p-0 min-w-6.5 h-6.5 bg-secondary/20 flex justify-center items-center hover:bg-secondary/30 transition-colors"
           >
