@@ -40,7 +40,7 @@ export default function RegionSelector({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:gap-x-12 gap-y-2 text-xl mt-2">
           {cityList.length === 0 ? (
-            <div>No cities available for this region.</div>
+            <div>Ingen byer tilgjengelig for denne regionen.</div>
           ) : (
             cityList?.map((city: City, index: number) => {
               const length = cityList.length;
