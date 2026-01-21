@@ -183,8 +183,7 @@ export async function POST(req: Request) {
       limitCheckLog.push(logEntry);
 
       console.log(
-        `  ${partner.name}: ${
-          limitReached ? "LIMIT REACHED" : "LIMIT AVAILABLE"
+        `  ${partner.name}: ${limitReached ? "LIMIT REACHED" : "LIMIT AVAILABLE"
         }`
       );
       if (!limitReached) {
@@ -218,8 +217,7 @@ export async function POST(req: Request) {
         sortingLog.push(logEntry);
 
         console.log(
-          `  ${p.name}: Premium=${p.isPremium}, LastMonthLeads=${
-            p.lastMonthLeads || 0
+          `  ${p.name}: Premium=${p.isPremium}, LastMonthLeads=${p.lastMonthLeads || 0
           }, Created=${new Date(p.createdAt).toLocaleDateString()}`
         );
       });
@@ -233,8 +231,7 @@ export async function POST(req: Request) {
       console.log("\nAfter sorting (in priority order):");
       partnerArray.forEach((p, i) => {
         console.log(
-          `  ${i + 1}. ${p.name}: Premium=${p.isPremium}, LastMonthLeads=${
-            p.lastMonthLeads || 0
+          `  ${i + 1}. ${p.name}: Premium=${p.isPremium}, LastMonthLeads=${p.lastMonthLeads || 0
           }, Created=${new Date(p.createdAt).toLocaleDateString()}`
         );
       });
@@ -838,7 +835,7 @@ async function sendMailToPartners(
         );
 
         const mailOptions = {
-          from: `"Meglertip Lead" <${smtpData.user}>`,
+          from: `"Flytip Lead" <${smtpData.user}>`,
           to: partner.email,
           subject: activeTemplate.subject,
           html: html,
@@ -960,7 +957,7 @@ async function sendMailToLead(
   );
 
   const mailOptions = {
-    from: `"Meglertipset" <${smtpData.user}>`,
+    from: `"Flyttetipset" <${smtpData.user}>`,
     to: userValues.email,
     subject: template.subject,
     html,

@@ -12,7 +12,7 @@ const Banner = async ({ BannerData }: any) => {
       <div className="absolute inset-0">
         <Image
           src={backgroundUrl}
-          alt="meglertip banner"
+          alt="Flytip banner"
           fill
           className="object-cover max-h-[2000px]"
           priority
@@ -27,7 +27,7 @@ const Banner = async ({ BannerData }: any) => {
             {BannerData?.title || 'Gjør det enkelt å finne riktig megler!'}
           </h1>
           <p className=" text-sm sm:text-base mb-8 max-w-[400px]">
-            {BannerData?.subtitle || 'Sammenlign de beste aktorer nær deg, helt gratis og uforpliktende. default'}
+            {BannerData?.subtitle || 'Sammenlign de beste flyttebyra nær deg, helt gratis og uforpliktende. default'}
           </p>
           <RedirectButton
             className="bg-primary text-base text-background h-12 rounded-lg transition text-[14px]  !py-[12px] !px-[20px] md:!px-[90px]"

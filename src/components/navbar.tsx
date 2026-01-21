@@ -13,13 +13,13 @@ const Navbar = ({ logo, logoText }: NavbarProps) => {
     <nav className="bg-navbarbg text-background px-4 lg:px-6 py-6 sticky top-0 !z-[99] h-[82px] flex items-center">
       <div className="flex justify-between items-center px-2 md:px-6 lg:px-10 w-full">
         <div className="text-xl font-bold overflow-hidden">
-          <Link href="/" aria-label="Meglertip Logo" className="flex gap-1 justify-center items-center">
+          <Link href="/" aria-label="Flytip Logo" className="flex gap-1 justify-center items-center">
             {
               logo &&
               <Image
                 src={`${imageBaseUrl}${logo}`}
                 width={40} height={26}
-                alt='Meglertip Logo'
+                alt='Flytip Logo'
                 className='h-full max-md:max-h-[265px] w-[31px]'
                 loading="lazy" />
             }
@@ -28,7 +28,7 @@ const Navbar = ({ logo, logoText }: NavbarProps) => {
               <Image
                 src={`${imageBaseUrl}${logoText}`}
                 width={100} height={20}
-                alt='Meglertip Logo'
+                alt='Flytip Logo'
                 className='h-full max-md:max-h-[265px] w-[142px]'
                 loading="lazy" />
             }

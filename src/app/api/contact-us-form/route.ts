@@ -69,21 +69,21 @@ export async function POST(request: NextRequest) {
 
         if (template && smtpData) {
             const transporter = nodemailer.createTransport({
-                 host: smtpData.host,
-                 port: smtpData.port,
-                 secure: smtpData.secure,
-                 auth: {
-                   user: smtpData.user,
-                   pass: smtpData.pass, //preventing to send email for test...
-                 },
-               });
+                host: smtpData.host,
+                port: smtpData.port,
+                secure: smtpData.secure,
+                auth: {
+                    user: smtpData.user,
+                    pass: smtpData.pass, //preventing to send email for test...
+                },
+            });
 
-            const htmlBody = template.body.replace(/\{\{(.+?)\}\}/g, (_:any, key:any) => {
+            const htmlBody = template.body.replace(/\{\{(.+?)\}\}/g, (_: any, key: any) => {
                 return (dataToSave as any)[key.trim()] || '';
             });
 
             await transporter.sendMail({
-                from: `"Meglertipset" <${smtpData.fromEmail}>`,
+                from: `"Flyttetipset" <${smtpData.fromEmail}>`,
                 to: "hei@tipsetas.no",
                 subject: template.subject,
                 html: htmlBody,

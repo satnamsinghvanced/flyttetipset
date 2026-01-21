@@ -27,9 +27,9 @@ export async function generateMetadata({
 
   if (!placeData?.data) {
     return generatePageMetadata({
-      title: "Aktorer | Meglertipset.no",
-      description: "Finn aktorer i ditt område",
-      path: `/aktorer/${slugValue}`,
+      title: "flyttebyra | Flyttetipset.no",
+      description: "Finn flyttebyra i ditt område",
+      path: `/flyttebyra/${slugValue}`,
     });
   }
   const {
@@ -60,7 +60,7 @@ export async function generateMetadata({
 
   //   alternates: {
   //     canonical:
-  //       canonicalUrl || `https://meglertipset.no/eiendomsmegler/${slugValue}`,
+  //       canonicalUrl || `https://flyttetipset.no/eiendomsmegler/${slugValue}`,
   //   },
 
   //   robots: robots || "index, follow",
@@ -95,35 +95,35 @@ export async function generateMetadata({
   // };
 
   return generatePageMetadata({
-    title: metaTitle || slug || heading || `${title} | Meglertipset.no`,
+    title: metaTitle || slug || heading || `${title} | Flyttetipset.no`,
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
-    path: `/aktorer/${slugValue}`,
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
+    path: `/flyttebyra/${slugValue}`,
     keywords: metaKeywords
       ? metaKeywords
         .split(",")
         ?.map((k: string) => k.trim())
         .filter(Boolean)
-      : ["meglertip", "real estate", "agents", "compare"],
+      : ["flytip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || `${title} | Meglertipset.no`,
+    ogTitle: ogTitle || metaTitle || `${title} | Flyttetipset.no`,
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
     canonicalUrl: canonicalUrl
       ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
         ? canonicalUrl
-        : `/aktorer/${canonicalUrl}`
-      : `/aktorer/${slugValue}`,
+        : `/flyttebyra/${canonicalUrl}`
+      : `/flyttebyra/${slugValue}`,
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "Flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

@@ -14,6 +14,7 @@
   width: 12px;
   height: 12px;
 }
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
@@ -21,7 +22,8 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 input[type=number] {
-  -moz-appearance: textfield !important; /* Firefox */
+  -moz-appearance: textfield !important;
+  /* Firefox */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -31,12 +33,12 @@ input[type=number] {
 }
 
 /* html {
-  scroll-behavior: smooth;
+	scroll-behavior: smooth;
 } */
 
 /* ::-webkit-scrollbar-track {
-  background: var(--color-background);
-  border-radius: 0;
+	background: var(--color-background);
+	border-radius: 0;
 } */
 
 body {
@@ -81,17 +83,32 @@ body {
     @apply mb-4 text-[14px] lg:text-[16px] text-secondary;
   }
 
-  .eiendomsmegler-content h2 {
+  .article-content p a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
+  }
+
+  .article-content a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
+  }
+
+  .flyttebyra-content h2 {
     @apply mb-4 text-[24px] lg:text-[48px] text-primary font-semibold lg:leading-16 leading-8;
 
   }
 
-  .eiendomsmegler-content p {
+  .flyttebyra-content p {
     @apply mb-4 text-[14px] lg:text-[16px] text-primary;
-
   }
 
-  /* real-estate-content  */
+  .flyttebyra-content p a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
+  }
+
+  .flyttebyra-content a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
+  }
+
+  /* real-estate-content */
   .real-estate-content h2 {
     @apply mb-[24px] mt-[40px] text-[24px] lg:text-[48px] text-primary font-semibold lg:leading-14 leading-6;
   }
@@ -102,6 +119,14 @@ body {
 
   .real-estate-content p {
     @apply text-primary;
+  }
+
+  .real-estate-content p a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
+  }
+
+  .real-estate-content a {
+    @apply mb-4 text-[14px] lg:text-[16px] !text-blue-500;
   }
 
   .ql-code-block-container {
@@ -138,7 +163,7 @@ body {
 }
 
 /* .article-content li::marker {
-  font-size: 20px;
+	font-size: 20px;
 } */
 .article-content li {
   position: relative;

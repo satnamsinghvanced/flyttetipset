@@ -15,8 +15,8 @@ export async function generateMetadata() {
   const partnerData = await getPartnerData();
   if (!partnerData) {
     return generatePageMetadata({
-      title: "Partner | Meglertipset.no",
-      description: "Join the Meglertip network and collaborate with us",
+      title: "Partner | Flyttetipset.no",
+      description: "Join the Flytip network and collaborate with us",
       path: "/partner",
     });
   }
@@ -45,14 +45,14 @@ export async function generateMetadata() {
     description:
       metaDescription ||
       subHeading ||
-      "Learn more about becoming a Meglertip partner",
+      "Learn more about becoming a Flytip partner",
     path: slug || "/partner",
     keywords: metaKeywords
       ? metaKeywords
         .split(",")
         ?.map((k: string) => k.trim())
         .filter(Boolean)
-      : ["partner", "meglertip", "business", "collaboration"],
+      : ["partner", "flytip", "business", "collaboration"],
     type: ogType || "website",
     image: metaImage || ogImage || image || null,
     ogTitle: ogTitle || metaTitle || heading || "Partner",
@@ -60,7 +60,7 @@ export async function generateMetadata() {
       ogDescription ||
       metaDescription ||
       subHeading ||
-      "Join the Meglertip network and collaborate with us",
+      "Join the Flytip network and collaborate with us",
     canonicalUrl: canonicalUrl || "/partner",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},

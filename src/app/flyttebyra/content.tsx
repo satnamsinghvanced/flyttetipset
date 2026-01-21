@@ -22,6 +22,7 @@ const EiendomsmeglerContent = async ({ searchParams, cp, county, realestateAgent
     chevronColor: "text-primary",
   };
 
+
   return (
     <>
       <div className="flex justify-center relative  ">

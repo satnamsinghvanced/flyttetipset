@@ -13,7 +13,7 @@ export async function generateMetadata() {
   const formData = await getFormData();
   if (!formData) {
     return generatePageMetadata({
-      title: "Get in touch | Meglertipset.no",
+      title: "Get in touch | Flyttetipset.no",
       description: "Fill out the form to get in touch with real estate agents",
       path: "/form",
     });

@@ -13,8 +13,8 @@ export async function generateMetadata({ params }: SlugPageProps) {
   const articleDoc = await getCachedArticleBySlug(slug ?? "");
   if (!articleDoc) {
     return generatePageMetadata({
-      title: `${title} | Meglertipset.no`,
-      description: `Read expert artikler about ${title} on Meglertipset.no.`,
+      title: `${title} | Flyttetipset.no`,
+      description: `Read expert artikler about ${title} on Flyttetipset.no.`,
       path: `/artikler/${articleCategory}/${slug}`,
     });
   }
@@ -35,23 +35,23 @@ export async function generateMetadata({ params }: SlugPageProps) {
   } = article ?? {};
 
   return generatePageMetadata({
-    title: metaTitle || `${title} | Meglertipset.no`,
+    title: metaTitle || `${title} | Flyttetipset.no`,
     description:
-      metaDescription || `Read expert artikler about ${title} on Meglertipset.no.`,
+      metaDescription || `Read expert artikler about ${title} on Flyttetipset.no.`,
     path: `/artikler/${articleCategory}/${slug}`,
     keywords: metaKeywords
       ? metaKeywords
         ?.split(",")
         ?.map((k: string) => k.trim())
         ?.filter(Boolean)
-      : ["meglertip", "real estate", "artikler"],
+      : ["flytip", "real estate", "artikler"],
     type: ogType || "website",
     image: ogImage || null,
-    ogTitle: ogTitle || metaTitle || `${title} | Meglertipset.no`,
+    ogTitle: ogTitle || metaTitle || `${title} | Flyttetipset.no`,
     ogDescription:
       ogDescription ||
       metaDescription ||
-      `Explore helpful ${title} artikler from Meglertipset.no.`,
+      `Explore helpful ${title} artikler from Flyttetipset.no.`,
     canonicalUrl: canonicalUrl
       ? canonicalUrl.startsWith("/") || canonicalUrl.startsWith("http")
         ? canonicalUrl

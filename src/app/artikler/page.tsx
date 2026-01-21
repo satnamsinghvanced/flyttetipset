@@ -13,7 +13,7 @@ export async function generateMetadata() {
   const articlesPage = await getArticlePageData();
   if (!articlesPage) {
     return generatePageMetadata({
-      title: "Artikler | Meglertipset.no",
+      title: "Artikler | Flyttetipset.no",
       description: "Read expert Artikler about real estate in Norway",
       path: "/artikler",
     });
@@ -37,31 +37,31 @@ export async function generateMetadata() {
     bannerImage,
   } = articlesPage;
   return generatePageMetadata({
-    title: metaTitle || heading || "Artikler | Meglertipset.no",
+    title: metaTitle || heading || "Artikler | Flyttetipset.no",
     description:
       metaDescription ||
       subHeading ||
-      "Welcome to Meglertipset.no — compare and find the best real estate agents in Norway.",
+      "Welcome to Flyttetipset.no — compare and find the best real estate agents in Norway.",
     path: "/artikler",
     keywords: metaKeywords
       ? metaKeywords
         .split(",")
         ?.map((k: string) => k.trim())
         .filter(Boolean)
-      : ["meglertip", "real estate", "agents", "compare"],
+      : ["flytip", "real estate", "agents", "compare"],
     type: ogType || "website",
     image: metaImage || ogImage || bannerImage || null,
-    ogTitle: ogTitle || metaTitle || "Home | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || "Home | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Compare top real estate agents in Norway easily with Meglertipset.no.",
+      "Compare top real estate agents in Norway easily with Flyttetipset.no.",
     canonicalUrl: canonicalUrl || "/artikler",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Meglertipset.no",
+      name: "Flyttetipset.no",
     },
     publishedDate: publishedDate,
     lastUpdatedDate: lastUpdatedDate,

@@ -13,10 +13,9 @@ export const getCachedRealEstateData = unstable_cache(
                 console.warn('No real estate agent data found in database');
                 return null;
             }
-
             return realEstateAgentPage;
         } catch (error) {
-            console.error('Real estate agent data fetch error:', error);
+            console.log('Real estate agent data fetch error:', error);
             return null;
         }
     },

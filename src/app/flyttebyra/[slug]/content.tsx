@@ -67,7 +67,7 @@ const SlugContent = async ({
             dangerouslySetInnerHTML={{
               __html: formatData(placeData?.data?.description) || "",
             }}
-            className="aktorer-content"
+            className="flyttebyra-content"
           ></div>
           <div className="mb-8">
             <CompanyContent

@@ -13,8 +13,8 @@ export async function generateMetadata() {
   const termsData = await getPageData();
   if (!termsData) {
     return generatePageMetadata({
-      title: "Terms of Service | Meglertipset.no",
-      description: "Meglertipset.no terms of service page",
+      title: "Terms of Service | Flyttetipset.no",
+      description: "Flyttetipset.no terms of service page",
       path: "/tjenestevilkar",
     });
   }
@@ -33,8 +33,8 @@ export async function generateMetadata() {
     title,
   } = termsData;
   return generatePageMetadata({
-    title: metaTitle || title || "Terms of Service | Meglertipset.no",
-    description: metaDescription || "Meglertipset.no terms of service page",
+    title: metaTitle || title || "Terms of Service | Flyttetipset.no",
+    description: metaDescription || "Flyttetipset.no terms of service page",
     path: "/tjenestevilkar",
     keywords: metaKeywords
       ? metaKeywords
@@ -43,18 +43,18 @@ export async function generateMetadata() {
         .filter(Boolean)
       : [
         "terms of service",
-        "meglertip",
+        "flytip",
         "legal",
         "user agreement",
         "terms and conditions",
       ],
     type: "website",
     image: metaImage || null,
-    ogTitle: ogTitle || metaTitle || title || "Terms of Service | Meglertipset.no",
+    ogTitle: ogTitle || metaTitle || title || "Terms of Service | Flyttetipset.no",
     ogDescription:
       ogDescription ||
       metaDescription ||
-      "Learn the terms of service for Meglertipset.no",
+      "Learn the terms of service for Flyttetipset.no",
     canonicalUrl: canonicalUrl || "/tjenestevilkar",
     robots: robots || "index, follow",
     jsonLd: jsonLd || {},
