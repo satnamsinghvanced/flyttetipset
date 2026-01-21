@@ -107,6 +107,7 @@ export interface ArticlesListProps {
 
 export interface ArticleProps {
   slugValue?: string;
+   categorySlug?:string;
 }
 
 export interface SlugContentProps {

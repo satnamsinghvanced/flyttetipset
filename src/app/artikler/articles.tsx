@@ -65,7 +65,7 @@ const Articles = ({
                       image={article?.image}
                       date={article?.showDate}
                       title={article?.title}
-                      href={`/artikler/${selectedCategorySlug}/${article?.slug}`}
+                      href={`/artikler/${article?.categoryId?.slug}/${article?.slug}`}
                     />
                   ))
                 ) : (

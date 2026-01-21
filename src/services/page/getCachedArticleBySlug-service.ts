@@ -1,26 +1,34 @@
-import { Article } from "@/lib/models/models";
+import { Article, ArticleCategory } from "@/lib/models/models";
 import { connectDB } from "@/lib/mongoose";
-import { unstable_cache } from "next/cache";
+import { Types } from "mongoose";
 
-export const getCachedArticleBySlug = unstable_cache(
-    async (slug: string) => {
-        try {
-            await connectDB();
+export const getCachedArticleBySlug= async (
+  categorySlug: string,
+  slugValue: string
+) => {
+  try {
+    await connectDB();
+    const category = await ArticleCategory.findOne({ slug: categorySlug })
+      .select("_id")
+      .lean<{ _id: Types.ObjectId }>();
 
-            const article = await Article.findOne({ slug }).lean();
+    if (!category) {
+      return null;
+    }
 
-            if (!article) {
-                console.warn(`No article found for slug: ${slug}`);
-                return null;
-            }
+    const article = await Article.findOne({
+      slug:slugValue,
+      categoryId: category._id,
+    })
+      .populate({
+        path: "categoryId",
+        select: "slug title",
+      })
+      .lean();
 
-            return article;
-        } catch (error) {
-            console.error("Article fetch error:", error);
-            return null;
-        }
-    },
-    // Cache KEY must include slug
-    [`article-detailed-data`],
-    { revalidate: 120 }
-);
+    return article ?? null;
+  } catch (error) {
+    console.error("Article fetch error:", error);
+    return null;
+  }
+};

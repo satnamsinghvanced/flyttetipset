@@ -8,9 +8,10 @@ import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { notFound } from 'next/navigation';
 
-const ArticleSlug = async ({ slugValue }: ArticleProps) => {
+
+const ArticleSlug = async ({ slugValue,categorySlug }: ArticleProps) => {
   const imageBaseUrl = process.env.NEXT_PUBLIC_IMAGE_URL ?? "";
-  const articleDoc = await getCachedArticleBySlug(slugValue ?? "");
+ const articleDoc = await getCachedArticleBySlug(categorySlug ?? "", slugValue ?? "");
   const article = await JSON.parse(JSON.stringify(articleDoc));
 
   if (!article) {

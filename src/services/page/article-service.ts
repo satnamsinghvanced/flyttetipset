@@ -144,11 +144,15 @@ export const getCachedArticlesByCategory = unstable_cache(
 
             const total = await Article.countDocuments(filter);
 
-            const articles = await Article.find(filter)
-                .sort(sort)
-                .skip(skip)
-                .limit(limit)
-                .lean();
+         const articles = await Article.find(filter)
+            .populate({
+             path: "categoryId",
+             select: "slug title",
+             model: "ArticleCategory",})
+            .sort(sort)
+            .skip(skip)
+            .limit(limit)
+            .lean();
 
             return {
                 success: true,
