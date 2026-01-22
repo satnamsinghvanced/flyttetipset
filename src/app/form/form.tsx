@@ -930,7 +930,14 @@ const Form = ({
             placeholder={"Enter 8 digits (e.g., 12345678)"}
             required={fieldProps.required}
             labelPlacement={fieldProps.labelPlacement}
-            value={countryCode + (rawValue.length > 0 ? " " : "") + rawValue}
+             startContent={<span
+              className="!text-sm !font-light mb-[3px]"
+              style={{ fontWeight: 400, fontSize: '14px' }}
+            >
+              +47
+            </span>
+            }
+            value={(rawValue.length > 0 ? " " : "") + rawValue}
             maxLength={countryCode.length + 1 + inputLengthLimit}
             isInvalid={isInvalid}
             errorMessage={fieldProps.errorMessage}
