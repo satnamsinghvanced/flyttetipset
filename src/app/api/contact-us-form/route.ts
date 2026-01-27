@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
         if (emailSubmissions >= 2 || ipSubmissions >= 2) {
             return Response.json({
-                message: "Oops! You've already submitted this form twice in the last 24 hours.",
+                message: "Ups! Du har allerede sendt inn dette skjemaet to ganger i løpet av de siste 24 timene.",
             }, { status: 429 });
         }
     }
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
             console.log("Email template or SMTP config not found. Skipping email.");
         }
 
-        return Response.json({ message: 'Form submitted successfully! & Partner form email sent!' }, { status: 201 });
+        return Response.json({ message: 'Skjemaet er sendt inn!' }, { status: 201 });
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown server error';
         console.log('MongoDB ContactUs insertion or email error:', errorMessage);
