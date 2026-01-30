@@ -6,7 +6,7 @@ const ImageWithTextWithPoints = ({ data }: any) => {
   const IMAGE_URL = process.env.NEXT_PUBLIC_IMAGE_URL ?? '';
 
   return (
-    <div className={`py-8 sm:py-12 lg:py-20 px-4 md:px-6 lg:px-8 ${data?.imagePosition === "right" ? "bg-background" : "bg-accent"}`}>
+    <div className={`py-8 sm:py-12 lg:py-20 px-4 md:px-6 lg:px-8 ${data?.imagePosition === "right" ? "bg-background" : "bg-white"}`}>
       <div className="mx-auto max-w-7xl">
         <div
           className={`flex ${data?.imagePosition === "right" ? " flex-col-reverse lg:flex-row" : "flex-col-reverse lg:flex-row-reverse"}  gap-8 lg:gap-x-12 xl:gap-x-24 lg:items-center`}

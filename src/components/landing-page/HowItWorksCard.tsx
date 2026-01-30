@@ -11,7 +11,7 @@ const HowItWorksCard = ({
 
   return (
     <div className="bg-background p-6 pt-4 lg:pt-5.5 rounded-lg shadow-md w-full space-y-4">
-      <div className={`flex items-center ${flex ? "gap-4" : "flex-col gap-1"}`}>
+     <div className={`${flex ? "gap-4" : "flex-col gap-3"}`}>
         {/* <Image
           src={`${imageBaseUrl}${icon}`}
           alt={`${heading} image`}
@@ -22,7 +22,12 @@ const HowItWorksCard = ({
           loading="lazy"
         /> */}
         {icon}
-        <h3 className="text-primary font-semibold text-[20px] lg:text-2xl md:text-2xl text-start">
+        {/* <h3 className="text-primary font-semibold text-[20px] lg:text-2xl md:text-2xl text-start">
+          {heading}
+        </h3> */}
+      </div>
+       <div>
+         <h3 className="text-primary font-semibold text-[20px] lg:text-2xl md:text-2xl text-start">
           {heading}
         </h3>
       </div>

@@ -28,11 +28,11 @@ const GoTop = () => {
         <div
           className={`text-background justify-end flex w-fit fixed right-4 bottom-4 shadow-lg`}
         >
-          <Button className="aspect-square bg-background" isIconOnly={true}>
-            <a href="#top">
+          <a href="#top">
+            <Button isIconOnly className="aspect-square bg-background">
               <FaArrowRightLong className="rotate-270 text-dark" />
-            </a>
-          </Button>
+            </Button>
+          </a>
         </div>
       )}
     </>

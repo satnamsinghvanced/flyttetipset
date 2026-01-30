@@ -63,7 +63,7 @@ const FormField = ({
                 type={getInputType(field.type)}
                 maxLength={8}
                 startContent={
-                    <span className="text-secondary/50 pr-2 select-none font-normal">+47</span>
+                    <span className="text-foreground-500 pr-2 select-none font-normal">+47</span>
                 }
                 className=' text-dark'
             />
