@@ -7,9 +7,29 @@ export const getCachedTopArticleCategory = unstable_cache(
         try {
             await connectDB();
 
-            const articleCategory = await ArticleCategory.find().sort({ categoryPosition: 1 }).limit(3);;
+            const articleCategory = await ArticleCategory.aggregate([
+                {
+                    $lookup: {
+                        from: 'articles',
+                        localField: '_id',
+                        foreignField: 'categoryId',
+                        as: 'articles'
+                    }
+                },
+                {
+                    $match: {
+                        'articles.0': { $exists: true }
+                    }
+                },
+                {
+                    $sort: { categoryPosition: 1 }
+                },
+                {
+                    $limit: 6
+                }
+            ]);
 
-            if (!articleCategory) {
+            if (!articleCategory || articleCategory.length === 0) {
                 console.warn('No articleCategory data found in database');
                 return null;
             }
