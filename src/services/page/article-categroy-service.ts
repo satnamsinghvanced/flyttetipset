@@ -25,7 +25,7 @@ export const getCachedTopArticleCategory = unstable_cache(
                     $sort: { categoryPosition: 1 }
                 },
                 {
-                    $limit: 6
+                    $limit: 3
                 }
             ]);
 
