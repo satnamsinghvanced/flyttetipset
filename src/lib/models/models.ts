@@ -768,6 +768,7 @@ const userSchema = new Schema(
       trim: true,
     },
     dynamicFields: { type: mongoose.Schema.Types.Mixed, default: {} },
+    userValues: { type: mongoose.Schema.Types.Mixed, default: {} },
     log: {
       type: String,
       required: false,

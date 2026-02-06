@@ -16,7 +16,7 @@ import { getTimeAgo } from "@/utils/getTimeAgo";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
-let MAX_PARTNERS: any = 0;
+let MAX_PARTNERS: any = 3;
 let uniqueId: number = 0;
 export async function POST(req: Request) {
   try {
@@ -458,7 +458,8 @@ export async function POST(req: Request) {
         selectedPartners,
         userValues,
         partnerEmailsData,
-        userUniqueId
+        userUniqueId,
+        user
       );
 
       // Check if at least one email was sent successfully
@@ -788,7 +789,8 @@ async function sendMailToPartners(
   partners: any[],
   userValues: any,
   partnerEmailsData: any[],
-  userUniqueId: number
+  userUniqueId: number,
+  user: any
 ) {
   if (!partners.length) {
     return partnerEmailsData;
@@ -831,7 +833,8 @@ async function sendMailToPartners(
           partner,
           userValues,
           activeTemplate,
-          userUniqueId
+          userUniqueId,
+          user
         );
 
         const mailOptions = {
@@ -978,87 +981,422 @@ function generatePartnerEmail(
   partner: any,
   userValues: any,
   activeTemplate: any,
-  userUniqueId: number
+  userUniqueId: number,
+  user:any
 ) {
   if (!activeTemplate || !activeTemplate.body) {
     return "<h1>New Lead Received</h1><p>Please check the system for details.</p>";
   }
+  
+  if (user.dynamicFields && user.dynamicFields.length > 0) {
+  }
 
   let emailBody = activeTemplate.body;
 
-  console.log("Generating email with placeholders:");
-  console.log("Template body preview:", emailBody.substring(0, 200) + "...");
-  console.log("User values available:", userValues);
+  const partnerName = partner.name || partner.companyName || "Partner";
+  emailBody = emailBody.replace(/{partnerName}/g, partnerName);
+  emailBody = emailBody.replace(/\[Partner Name\]/g, partnerName);
 
-  emailBody = emailBody.replace(
-    /{partnerName}/g,
-    partner.name || partner.companyName || "Partner"
-  );
+  const allFormData = getAllFormData(user.dynamicFields);
+  const allImages = getAllImages(user.dynamicFields);
+  const formDataHtml = generateFormDataHtml(allFormData);
+  const imagesHtml = generateImagesHtml(allImages);
+  const combinedHtml = `
+<div style="font-family: 'Segoe UI', Arial, sans-serif; color: rgb(22, 25, 37); line-height: 1.6; max-width: 700px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
 
-  const placeholderMappings: Record<string, string> = {
-    "[Id]": String(userUniqueId) || "N/A",
-    "[Full name]": userValues.name || "N/A",
-    "[Full number]": userValues.phone || "N/A",
-    "[Full email]": userValues.email || "N/A",
-    "[adress_lead]": userValues.streetName || userValues.address || "N/A",
-    "[Type of lead]":
-      userValues.selectedFormTitle || userValues.preferranceType || "N/A",
-    "[EMAIL]": userValues.email || "N/A",
-    /// for addition work
-    "{userName}": userValues.name || "N/A",
-    "{userPhone}": userValues.phone || "N/A",
-    "{userEmail}": userValues.email || "N/A",
-    "{userAddress}": userValues.streetName || userValues.address || "",
-    "{userAccommodationType}": userValues.accommodationType || "N/A",
-    "{userPostalCode}": userValues.postalCode || "N/A",
-    "{userRoomCount}": userValues.roomCount || "N/A",
-    "{userHomeSize}": userValues.homeSize || "N/A",
-    "{userStreetName}": userValues.streetName || "N/A",
-    "{userAdditionalIdentifier}": userValues.additionalIdentifier || "N/A",
-    "{userRoomCondition}": userValues.roomCondition || "N/A",
-    "{userSellingDate}": userValues.sellingDate || "N/A",
-    "{userDetails}": userValues.details || "N/A",
-    "{userSelectedFormTitle}": userValues.selectedFormTitle || "N/A",
-    "{userPreferranceType}":
-      userValues.preferranceType || userValues.selectedFormTitle || "N/A",
-    "{currentDate}": new Date().toLocaleDateString("no-NO"),
+<h2 style="color: rgb(22, 25, 37); border-bottom: 2px solid rgb(22, 25, 37); padding-bottom: 12px; margin-bottom: 25px; font-size: 24px; letter-spacing: -0.5px;">
+    Fullstendig Skjemadata
+</h2>
+
+<div style="margin-bottom: 30px;">
+    ${formDataHtml}
+</div>
+
+${
+  allImages.length > 0
+    ? `
+<h2 style="color: rgb(22, 25, 37); border-bottom: 2px solid #eef0f2; padding-bottom: 12px; margin-top: 40px; margin-bottom: 20px; font-size: 20px;">
+    Vedlagte Bilder 
+    <span style="color: #888; font-weight: normal; font-size: 16px;">
+        (${allImages.length})
+    </span>
+</h2>
+
+<div style="text-align: left; font-size: 0; margin-bottom: 10px;">
+    ${imagesHtml}
+</div>
+`
+    : ""
+}
+
+<div style="margin-top: 10px; padding: 10px; background-color: #f4f5f7; border-radius: 12px; border: 1px solid #eef0f2;">
+    <p style="margin: 0; color: #555; font-size: 13px; text-align: center;">
+        <strong style="color: rgb(22, 25, 37);">Lead ID:</strong> ${userUniqueId} 
+        <span style="margin: 0 10px; color: #ccc;">|</span>
+        <strong style="color: rgb(22, 25, 37);">Dato:</strong> ${new Date().toLocaleDateString("no-NO")}
+    </p>
+</div>
+
+</div>
+`;
+
+
+  function extractFieldValue(dynamicFields: any[], fieldName: string): string {
+    if (!dynamicFields) {
+      return "";
+    }
+
+    for (const form of dynamicFields) {
+      if (form.values && form.values[fieldName] !== undefined) {
+        const value = form.values[fieldName];
+        if (Array.isArray(value)) {
+          return value.join(", ");
+        }
+        if (value === true) return "Ja";
+        if (value === false) return "Nei";
+        if (value === null || value === undefined) return "Ikke oppgitt";
+        return String(value);
+      }
+      const lowerFieldName = fieldName.toLowerCase();
+      for (const key in form.values || {}) {
+        if (key.toLowerCase() === lowerFieldName) {
+          const value = form.values[key];
+
+          if (Array.isArray(value)) {
+            return value.join(", ");
+          }
+          if (value === true) return "Ja";
+          if (value === false) return "Nei";
+          if (value === null || value === undefined) return "Ikke oppgitt";
+          return String(value);
+        }
+      }
+    }
+
+    return "";
+  }
+
+  const addressPlaceholders = {
+    "{streetName}": extractFieldValue(user.dynamicFields, "streetName"),
+    "{postalCode}": extractFieldValue(user.dynamicFields, "postalCode"),
+    "{address}": `${extractFieldValue(user.dynamicFields, "streetName")} ${extractFieldValue(user.dynamicFields, "postalCode")}`.trim(),
+    "[adress_lead]": extractFieldValue(user.dynamicFields, "streetName"),
+    "[Full address]": `${extractFieldValue(user.dynamicFields, "streetName")}, ${extractFieldValue(user.dynamicFields, "postalCode")}`,
+    "[Full name]": extractFieldValue(user.dynamicFields, "name"),
+    "[Full number]": extractFieldValue(user.dynamicFields, "phone"),
+    "[Full email]": extractFieldValue(user.dynamicFields, "email"),
+    "[EMAIL]": extractFieldValue(user.dynamicFields, "email"),
+    "[Id]": String(userUniqueId),
   };
 
-  const foundPlaceholders: string[] = [];
-  Object.keys(placeholderMappings).forEach((placeholder) => {
+  Object.entries(addressPlaceholders).forEach(([placeholder, value]) => {
     if (emailBody.includes(placeholder)) {
-      foundPlaceholders.push(placeholder);
+      const regex = new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+      emailBody = emailBody.replace(regex, value || "N/A");
     }
   });
 
-  console.log("Found placeholders in template:", foundPlaceholders);
+  const mainPlaceholders = {
+    "{allFormData}": combinedHtml,
+    "{comprehensiveData}": combinedHtml,
+    "{leadDetails}": combinedHtml,
+    "{formDataAndImages}": combinedHtml,
+    "{dynamicFieldsData}": combinedHtml,
+    "{fullData}": combinedHtml,
+    "[All Data]": combinedHtml,
+    "[Form Data]": combinedHtml,
+    "[Complete Data]": combinedHtml,
+  };
 
-  Object.entries(placeholderMappings).forEach(([placeholder, value]) => {
+  let foundMainPlaceholder = false;
+  Object.entries(mainPlaceholders).forEach(([placeholder, htmlContent]) => {
     if (emailBody.includes(placeholder)) {
-      console.log(`Replacing ${placeholder} with: ${value}`);
-      const regex = new RegExp(
-        placeholder.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
-        "g"
-      );
-      emailBody = emailBody.replace(regex, value);
+      emailBody = emailBody.replace(new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), htmlContent);
+      foundMainPlaceholder = true;
     }
   });
-
-  const remainingSquareBrackets = emailBody.match(/\[.*?\]/g) || [];
-  const remainingCurlyBraces = emailBody.match(/\{.*?\}/g) || [];
-
-  if (remainingSquareBrackets.length > 0) {
-    console.warn(
-      "Unreplaced square bracket placeholders:",
-      remainingSquareBrackets
-    );
+  if (!foundMainPlaceholder) {
+    emailBody += combinedHtml;
   }
-  if (remainingCurlyBraces.length > 0) {
-    console.warn("Unreplaced curly brace placeholders:", remainingCurlyBraces);
-  }
-
   return emailBody;
 }
+
+function getAllFormData(dynamicFields: any[]): Array<{ formTitle: string, fields: Array<{ name: string, value: any }> }> {
+  const allData: any = [];
+
+  if (!dynamicFields || dynamicFields.length === 0) {
+    return allData;
+  }
+  dynamicFields.forEach((form, formIndex) => {
+    const formData = {
+      formTitle: form.formTitle || "Skjema",
+      fields: [] as Array<{ name: string, value: any }>
+    };
+
+    if (form.values) {
+      Object.entries(form.values).forEach(([fieldName, fieldValue]) => {
+        if (fieldName.toLowerCase().includes('formid') ||
+          fieldName.toLowerCase().includes('selectedformtype') ||
+          fieldName === '_id' ||
+          fieldName === 'id' ||
+          fieldName.toLowerCase().includes('previewurl') ||
+          fieldName.toLowerCase().includes('uploading') ||
+          fieldName.toLowerCase().includes('isselected')) {
+          return;
+        }
+
+        const isImageField = fieldName.toLowerCase().includes("bilder") ||
+          fieldName.toLowerCase().includes("image") ||
+          fieldName.toLowerCase().includes("file") ||
+          fieldName.toLowerCase().includes("photo") ||
+          fieldName.toLowerCase().includes("picture") ||
+          fieldName.toLowerCase().includes("upload") ||
+          fieldName.toLowerCase().includes("mb");
+        if (isImageField) {
+          return;
+        }
+        formData.fields.push({
+          name: fieldName,
+          value: fieldValue
+        });
+      });
+    }
+
+    if (formData.fields.length > 0) {
+      allData.push(formData);
+    }
+
+  });
+
+  return allData;
+}
+
+function getAllImages(dynamicFields: any[]): Array<{ url: string, fileName: string }> {
+  const allImages: any = [];
+  const imageBaseUrl = (process.env.NEXT_PUBLIC_IMAGE_URL ?? "https://api.flytipset.no").replace(/\/$/, '');
+
+  if (!dynamicFields) {
+    return allImages;
+  }
+  dynamicFields.forEach((form, formIndex) => {
+    if (!form.values) {
+      return;
+    }
+
+    Object.entries(form.values).forEach(([fieldName, fieldValue]) => {
+
+      const isImageField = fieldName.toLowerCase().includes("bilder") ||
+        fieldName.toLowerCase().includes("image") ||
+        fieldName.toLowerCase().includes("file") ||
+        fieldName.toLowerCase().includes("photo") ||
+        fieldName.toLowerCase().includes("picture") ||
+        fieldName.toLowerCase().includes("upload") ||
+        fieldName.toLowerCase().includes("mb"); // For "Maks 3 bilder à 2 MB"
+
+      if (isImageField && fieldValue) {
+        if (Array.isArray(fieldValue)) {
+          fieldValue.forEach((item, itemIndex) => {
+
+            if (typeof item === 'string') {
+              let imageUrl = item;
+
+              if (!imageUrl.startsWith('http')) {
+                imageUrl = imageUrl.replace(/^\//, '');
+                const fullUrl = `${imageBaseUrl}/${imageUrl}`;
+                const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+
+                allImages.push({
+                  url: fullUrl,
+                  fileName: fileName
+                });
+              } else {
+                const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+                allImages.push({
+                  url: imageUrl,
+                  fileName: fileName
+                });
+              }
+            } else if (item && typeof item === 'object' && item.url) {
+              let imageUrl = item.url;
+
+              if (!imageUrl.startsWith('http')) {
+                imageUrl = imageUrl.replace(/^\//, '');
+                const fullUrl = `${imageBaseUrl}/${imageUrl}`;
+                const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+                allImages.push({
+                  url: fullUrl,
+                  fileName: fileName
+                });
+              } else {
+                const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+                allImages.push({
+                  url: imageUrl,
+                  fileName: fileName
+                });
+              }
+            }
+          });
+        } else if (typeof fieldValue === 'string') {
+          let imageUrl = fieldValue;
+
+          if (!imageUrl.startsWith('http')) {
+            imageUrl = imageUrl.replace(/^\//, '');
+            const fullUrl = `${imageBaseUrl}/${imageUrl}`;
+            const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+
+            allImages.push({
+              url: fullUrl,
+              fileName: fileName
+            });
+          } else {
+            const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+            allImages.push({
+              url: imageUrl,
+              fileName: fileName
+            });
+          }
+        } else if (fieldValue && typeof fieldValue === 'object' && (fieldValue as any).url) {
+          let imageUrl = (fieldValue as any).url;
+
+          if (!imageUrl.startsWith('http')) {
+            imageUrl = imageUrl.replace(/^\//, '');
+            const fullUrl = `${imageBaseUrl}/${imageUrl}`;
+            const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+            allImages.push({
+              url: fullUrl,
+              fileName: fileName
+            });
+          } else {
+            const fileName = imageUrl.split('/').pop() || `Bilde ${allImages.length + 1}`;
+            allImages.push({
+              url: imageUrl,
+              fileName: fileName
+            });
+          }
+        }
+      }
+    });
+  });
+  return allImages;
+}
+
+function generateFormDataHtml(allFormData: Array<{ formTitle: string, fields: Array<{ name: string, value: any }> }>): string {
+  if (allFormData.length === 0) {
+    return `<p style="color: #999; font-style: italic; padding: 20px; text-align: center;">Ingen skjemadata tilgjengelig.</p>`;
+  }
+  let html = '';
+
+  allFormData.forEach((form, formIndex) => {
+    html += `
+      <div style="margin-bottom: 25px; padding: 0;">
+        <h3 style="color: rgb(22, 25, 37); background-color: #f4f5f7; padding: 14px 18px; border-radius: 8px; border-left: 5px solid rgb(22, 25, 37); margin: 0 0 15px 0; font-size: 16px; font-weight: 700; font-family: 'Segoe UI', Arial, sans-serif;">
+    ${form.formTitle}
+</h3>
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+    `;
+
+    const filteredFields = form.fields.filter(field =>
+      !field.name.toLowerCase().includes('selectedformtitle')
+    );
+
+    filteredFields.forEach((field, fieldIndex) => {
+      let displayValue = '';
+      if (Array.isArray(field.value)) {
+        displayValue = field.value.map(item => {
+          if (item === true) return "Ja";
+          if (item === false) return "Nei";
+          if (item === null || item === undefined) return "";
+          return String(item);
+        }).filter(Boolean).join(', ');
+      } else if (field.value === true) {
+        displayValue = "Ja";
+      } else if (field.value === false) {
+        displayValue = "Nei";
+      } else if (field.value === null || field.value === undefined) {
+        displayValue = "Ikke oppgitt";
+      } else {
+        displayValue = String(field.value);
+      }
+      const cleanFieldName = field.name
+        .replace(/[_-]/g, ' ')
+        .replace(/\b\w/g, l => l.toUpperCase())
+        .replace(/  +/g, ' ')
+        .trim();
+
+      const rowColor = fieldIndex % 2 === 0 ? '#ffffff' : '#f9f9f9';
+
+      html += `
+       <tr style="background-color: ${rowColor};">
+  <td style="padding: 12px 15px; border-bottom: 1px solid #eef0f2; font-weight: 700; color: rgb(22, 25, 37); width: 35%; vertical-align: top; font-size: 13px;">
+    ${cleanFieldName}
+  </td>
+  <td style="padding: 12px 15px; border-bottom: 1px solid #eef0f2; color: #444; width: 65%; vertical-align: top; font-size: 14px; line-height: 1.5;">
+    ${displayValue || '<span style="color: #999; font-style: italic;">Ikke oppgitt</span>'}
+  </td>
+</tr>
+      `;
+    });
+
+    html += `
+        </table>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+function generateImagesHtml(allImages: Array<{ url: string, fileName: string }>): string {
+  if (allImages.length === 0) {
+    return `
+      <div style="padding: 20px; background-color: #f8f8f8; border-radius: 8px; text-align: center; border: 1px dashed #ccc;">
+        <p style="color: #999; margin: 0; font-style: italic;">
+          Ingen bilder ble lastet opp.
+        </p>
+      </div>
+    `;
+  }
+
+  let html = `
+    <div style="margin: 0;">
+    <p style="color: rgb(22, 25, 37); margin: 25px 0 15px 0; font-size: 15px; font-weight: 700; font-family: Arial, sans-serif; display: flex; align-items: center;">
+  <span style="display: inline-block; width: 4px; height: 18px; background-color: rgb(22, 25, 37); margin-right: 10px; border-radius: 2px;"></span>
+  ${allImages.length} bilde(r) lastet opp:
+</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 10px;">
+  `;
+
+  allImages.forEach((image, index) => {
+    html += `
+      <div style="display: inline-block; width: 180px; margin: 0 12px 20px 0; vertical-align: top; border: 1px solid #eef0f2; border-radius: 8px; overflow: hidden; background-color: #ffffff; font-family: Arial, sans-serif;">
+  <a href="${image.url}" target="_blank" style="text-decoration: none; display: block;">
+    
+    <div style="background-color: #f4f5f7; width: 100%; height: 150px; overflow: hidden;">
+      <img 
+        src="${image.url}" 
+        style="width: 100%; height: 150px; object-fit: cover; display: block; border: 0;"
+        alt="${image.fileName}"
+      >
+    </div>
+
+    <div style="padding: 10px; background-color: #ffffff; border-top: 1px solid #eef0f2; text-align: center;">
+      <div style="color: rgb(22, 25, 37); font-size: 12px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-bottom: 2px;">
+        ${image.fileName}
+      </div>
+      <div style="color: #999; font-size: 10px; font-weight: normal;">
+        Bilde ${index + 1} av ${allImages.length}
+      </div>
+    </div>
+
+  </a>
+</div>
+    `;
+  });
+  html += ``;
+  return html;
+}
+
+
 
 /**
  * GET endpoint for testing
