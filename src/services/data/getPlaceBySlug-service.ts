@@ -28,11 +28,11 @@ async function fetchCityBySlug(slug: string) {
   if (!data) return null;
 
   // sort companies safely
-  if ("companies" in data && Array.isArray((data as any).companies)) {
-    (data as any).companies.sort(
-      (a: any, b: any) => a.rank - b.rank
-    );
-  }
+  // if ("companies" in data && Array.isArray((data as any).companies)) {
+  //   (data as any).companies.sort(
+  //     (a: any, b: any) => a.rank - b.rank
+  //   );
+  // }
 
   return data;
 }
