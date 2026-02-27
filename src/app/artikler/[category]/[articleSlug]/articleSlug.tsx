@@ -9,9 +9,9 @@ import Image from "next/image";
 import { notFound } from 'next/navigation';
 
 
-const ArticleSlug = async ({ slugValue,categorySlug }: ArticleProps) => {
+const ArticleSlug = async ({ slugValue, categorySlug }: ArticleProps) => {
   const imageBaseUrl = process.env.NEXT_PUBLIC_IMAGE_URL ?? "";
- const articleDoc = await getCachedArticleBySlug(categorySlug ?? "", slugValue ?? "");
+  const articleDoc = await getCachedArticleBySlug(categorySlug ?? "", slugValue ?? "");
   const article = await JSON.parse(JSON.stringify(articleDoc));
 
   if (!article) {
@@ -20,6 +20,9 @@ const ArticleSlug = async ({ slugValue,categorySlug }: ArticleProps) => {
 
   return (
     <>
+      <div className="pp-8 bg-green-200">
+        {article?.image}
+      </div>
       <div className="block lg:hidden">
         {article?.image && (
           <Image
@@ -49,8 +52,8 @@ const ArticleSlug = async ({ slugValue,categorySlug }: ArticleProps) => {
             {article?.image && (
               <Image
                 src={`${imageBaseUrl}${article?.image}`}
-                width={100}
-                height={100}
+                width={1440}
+                height={720}
                 alt={`${article?.title} image`}
                 className="w-full rounded-2xl mb-6"
                 loading="lazy"
@@ -68,9 +71,9 @@ const ArticleSlug = async ({ slugValue,categorySlug }: ArticleProps) => {
       </div>
       {article?.articleTags &&
         article?.articleTags ?
-          <ArticlesByTags tags={article?.articleTags} slug={article?.slug} />
-          :
-          <ArticleSecond />
+        <ArticlesByTags tags={article?.articleTags} slug={article?.slug} />
+        :
+        <ArticleSecond />
       }
     </>
   );
