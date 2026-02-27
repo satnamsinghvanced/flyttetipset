@@ -20,9 +20,6 @@ const ArticleSlug = async ({ slugValue, categorySlug }: ArticleProps) => {
 
   return (
     <>
-      <div className="pp-8 bg-green-200">
-        {article?.image}
-      </div>
       <div className="block lg:hidden">
         {article?.image && (
           <Image
