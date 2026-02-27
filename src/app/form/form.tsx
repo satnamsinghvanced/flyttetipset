@@ -395,6 +395,35 @@ const Form = ({
   const currentFormData = currentForm?.formData;
   const currentStepData = currentFormData?.steps?.[currentStep];
 
+  useEffect(() => {
+    if (!currentForm || !currentStepData) return;
+
+    let hasUpdates = false;
+    const updatedValues = { ...currentForm.values };
+
+    currentStepData.fields
+      .filter((field: FormField) => field.visible !== false)
+      .forEach((field: FormField) => {
+        if (
+          field.type === "dropdown" &&
+          Array.isArray(field.options) &&
+          field.options.length > 0 &&
+          !currentForm.values[field.name]
+        ) {
+          updatedValues[field.name] = field.defaultValue || field.options[0];
+          hasUpdates = true;
+        }
+      });
+
+    if (hasUpdates) {
+      setSelectedForms((prev) =>
+        prev?.map((form, i) =>
+          i === currentFormIndex ? { ...form, values: updatedValues } : form
+        )
+      );
+    }
+  }, [currentFormIndex, currentStep, currentStepData]);
+
   // Get visible steps for current form
   const getVisibleSteps = (form: SelectedForm) => {
     if (!form?.formData?.steps) return [];
@@ -1003,9 +1032,8 @@ const Form = ({
           Array.isArray(field.options) && field.options.length > 0
             ? field.options
             : [];
-        const currentValue = value;
-        const effectiveValue = currentValue || availableOptions[0] || "";
-        const selectedKeys = effectiveValue ? [effectiveValue] : undefined;
+        const currentValue = value || field.defaultValue || (availableOptions.length > 0 ? availableOptions[0] : "");
+        const selectedKeys = currentValue ? [currentValue] : undefined;
 
         return (
           <div key={field._id || index}>
@@ -1030,9 +1058,7 @@ const Form = ({
               }}
             >
               {availableOptions?.map((opt: string, optIndex: number) => (
-                <SelectItem key={opt || `opt-${optIndex}`} textValue={opt} >
-                  {/* // <SelectItem key={opt || `opt-${optIndex}`} textValue={`${opt} ${optIndex}`}> */}
-
+                <SelectItem key={opt || `opt-${optIndex}`} textValue={opt}>
                   {opt}
                 </SelectItem>
               ))}
@@ -1051,6 +1077,9 @@ const Form = ({
 
         return (
           <div key={field._id || index} className="space-y-2">
+            {field.name === "multi" && (
+              <p className="font-semibold text-primary">{field.label}</p>
+            )}
             {Array.isArray(field.options) && field.options.length > 0 ? (
               <>
                 {isInvalid && (
