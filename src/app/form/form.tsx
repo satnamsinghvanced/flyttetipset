@@ -10,8 +10,10 @@ import {
   Input,
   Select,
   SelectItem,
-  Textarea
+  Textarea,
+  Calendar
 } from "@heroui/react";
+import { today, getLocalTimeZone, parseDate } from "@internationalized/date";
 import { useCallback, useEffect, useState } from "react";
 import { FaRegCircleCheck, FaRegCircleXmark } from "react-icons/fa6";
 import { IoWarning } from "react-icons/io5";
@@ -411,6 +413,13 @@ const Form = ({
           !currentForm.values[field.name]
         ) {
           updatedValues[field.name] = field.defaultValue || field.options[0];
+          hasUpdates = true;
+        } else if (
+          field.type === "calendar" &&
+          !currentForm.values[field.name]
+        ) {
+          // Default to today if no defaultValue is provided
+          updatedValues[field.name] = field.defaultValue || today(getLocalTimeZone()).toString();
           hasUpdates = true;
         }
       });
@@ -1124,6 +1133,38 @@ const Form = ({
                 {field.label}
                 {field.required ? " *" : ""}
               </Checkbox>
+            )}
+          </div>
+        );
+
+      case "calendar":
+         return (
+          <div key={field._id || index} className="space-y-2 flex flex-col">
+            <label className="font-medium text-small">
+              {field.label}{" "}
+              {field.required && <span className="text-[#ff0000]">*</span>}
+            </label>
+            <div className="flex justify-center w-fit">
+              <Calendar
+                aria-label={field.label}
+                value={value ? parseDate(value) : undefined}
+                onChange={(date) => {
+                  const dateStr = date.toString();
+                  handleChange(formIndex, field.name, dateStr, field);
+                  handleBlur(formIndex, field.name, dateStr, field);
+                }}
+                minValue={today(getLocalTimeZone())}
+                isInvalid={isInvalid}
+                className="w-full max-w-full shadow-sm border border-default-200 rounded-xl"
+                classNames={{
+                  grid: " ",
+                }}
+              />
+            </div>
+            {isInvalid && (
+              <p className="text-danger text-xs mt-1">
+                {currentFormData?.errors[field.name]}
+              </p>
             )}
           </div>
         );
