@@ -959,7 +959,7 @@ const Form = ({
             placeholder={"Enter 8 digits (e.g., 12345678)"}
             required={fieldProps.required}
             labelPlacement={fieldProps.labelPlacement}
-             startContent={<span
+            startContent={<span
               className="!text-sm !font-light mb-[3px]"
               style={{ fontWeight: 400, fontSize: '14px' }}
             >
@@ -1032,29 +1032,31 @@ const Form = ({
           Array.isArray(field.options) && field.options.length > 0
             ? field.options
             : [];
-        const currentValue = value || field.defaultValue || (availableOptions.length > 0 ? availableOptions[0] : "");
-        const selectedKeys = currentValue ? [currentValue] : undefined;
+        const currentValue = value || field.defaultValue;
+        const selectedKeys = currentValue ? [currentValue] : [];
 
         return (
           <div key={field._id || index}>
             <Select
               label={fieldProps.label}
-              placeholder={fieldProps.placeholder}
+              placeholder={fieldProps.placeholder || "Vennligst velg"}
               required={fieldProps.required}
               labelPlacement={fieldProps.labelPlacement}
               selectedKeys={selectedKeys}
+              disallowEmptySelection={true}
               errorMessage={fieldProps.errorMessage}
               isInvalid={fieldProps.isInvalid}
               onBlur={fieldProps.onBlur}
               popoverProps={{
                 placement: "bottom",
                 shouldFlip: false,
-
               }}
               onSelectionChange={(keys) => {
                 const selectedValue = Array.from(keys).join(",");
-                handleChange(formIndex, field.name, selectedValue, field);
-                handleBlur(formIndex, field.name, selectedValue, field);
+                if (selectedValue) {
+                  handleChange(formIndex, field.name, selectedValue, field);
+                  handleBlur(formIndex, field.name, selectedValue, field);
+                }
               }}
             >
               {availableOptions?.map((opt: string, optIndex: number) => (
@@ -1259,7 +1261,7 @@ const Form = ({
           {/* Progress steps - only show if we have steps */}
 
           {steps.length > 0 && (
-            <div className="flex gap-10 justify-center md:justify-start mb-4 max-lg:hidden">
+            <div className="flex gap-6 justify-center md:justify-start mb-4 max-lg:hidden">
               {steps?.map((_, i: number) => (
                 <div
                   key={i}
