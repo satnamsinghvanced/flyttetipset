@@ -51,7 +51,7 @@ export default function RegionSelector({
               return (
                 <Link
                   href={`/flyttebyra/${city.slug}`}
-                  key={city.slug}
+                  key={`${index}-${city.slug}`}
                   className={`bg-transparent rounded-none text-2xl px-0 font-medium flex justify-between items-center border-b transition-colors duration-300 ${isBorderRemoved
                     ? "border-transparent"
                     : "border-secondary/20"

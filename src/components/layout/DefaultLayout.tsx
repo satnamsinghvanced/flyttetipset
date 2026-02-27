@@ -8,8 +8,8 @@ import React from "react";
 export default async function DefaultLayout({ children }: { children: React.ReactNode }) {
   const doc = await getCachedThemeData();
   const themeData = await JSON.parse(JSON.stringify(doc));
-  const theme = themeData.theme || Static_THEME;
-  const logos = themeData.logos;
+  const theme = themeData?.theme || Static_THEME;
+  const logos = themeData?.logos;
 
   return (
     <div
