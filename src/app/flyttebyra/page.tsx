@@ -78,6 +78,14 @@ const EiendomsmeglerPage = async ({
   const cp = params?.cp;
   const realestateAgents = await getRealestateAgentsData();
 
+  if (!realestateAgents) {
+    return (
+      <div className="flex justify-center items-center min-vh-70">
+        <p className="text-xl font-semibold p-20">Tjenesten er midlertidig utilgjengelig. Vennligst prøv igjen senere.</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Breadcrumbs className="mt-8" />

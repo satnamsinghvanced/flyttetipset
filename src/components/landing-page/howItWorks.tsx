@@ -32,7 +32,7 @@ const HowItWorks = ({
         {title}
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-around gap-4 lg:gap-6 mx-auto max-w-7xl px-4 md:px-6 lg:px-0">
-        {cards?.map(
+        {cards && cards?.map(
           ({ heading, title, description }: any, index: number) => (
             <HowItWorksCard
               key={index}

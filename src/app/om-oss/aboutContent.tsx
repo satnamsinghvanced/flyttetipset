@@ -36,7 +36,9 @@ export default async function AboutContent({ content }: AboutContentProps) {
                     loading="lazy"
                   />
                 )}
-                <p className="text-base font-normal text-secondary">{item?.descriptions}</p>
+                <p className="text-base font-normal text-secondary"
+                  dangerouslySetInnerHTML={{ __html: item?.descriptions }}
+                ></p>
                 {index === 0 && (
                   <Image
                     src={`${imageBaseUrl}${content?.image}`}

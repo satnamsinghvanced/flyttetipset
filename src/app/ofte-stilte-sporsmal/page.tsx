@@ -76,6 +76,15 @@ const FaqPage = async () => {
   const categories = await JSON.parse(JSON.stringify(doc));
   const displayCategories = categories.length > 0 ? categories : {};
   const faqPage = await getFaqPageData();
+
+  if (!faqPage) {
+    return (
+      <div className="flex justify-center items-center min-h-[400px]">
+        <p className="text-xl font-semibold">Tjenesten er midlertidig utilgjengelig. Vennligst prøv igjen senere.</p>
+      </div>
+    );
+  }
+
   const { title, description } = faqPage;
 
   return (

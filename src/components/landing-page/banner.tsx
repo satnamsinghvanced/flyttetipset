@@ -8,13 +8,13 @@ const Banner = async ({ BannerData }: any) => {
   const backgroundUrl = `${IMAGE_URL}${BannerData?.backgroundImage || "uploads/bg-1.webp"}`;
 
   return (
-    <div className="relative max-h-[calc(100vh-82px)] h-[calc(100vh-82px)] bg-cover bg-center flex items-center justify-center">
-      <div className="absolute inset-0">
+    <div className="relative  max-h-[700px] md:max-h-[1072px] h-[calc(100vh-82px)]  bg-cover bg-center flex items-center justify-center">
+      <div className="absolute inset-0 h-full w-full">
         <Image
           src={backgroundUrl}
           alt="Flytip banner"
           fill
-          className="object-cover max-h-[2000px]"
+          className="object-cover max-h-[2160px]"
           priority
           fetchPriority="high"
         />

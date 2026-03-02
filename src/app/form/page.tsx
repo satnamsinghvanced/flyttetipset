@@ -68,17 +68,23 @@ export async function generateMetadata() {
 const FormPage = async () => {
   const formPageData = await getFormData();
   const doc: any = await getCachedFormSelect();
-  const formSelect = await JSON.parse(JSON.stringify(doc));
+  const formSelect = await JSON.parse(JSON.stringify(doc || []));
 
+  if (!formSelect) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl font-semibold">Tjenesten er midlertidig utilgjengelig. Vennligst prøv igjen senere.</p>
+      </div>
+    );
+  }
   return (
     <>
-      {/* <Form formSelect={formSelect} /> */}
       <Form
-        formSelect={formSelect}
-        isMultiSelect={formPageData?.multipleSelect}
-        pageTitle={formPageData?.title}
-        pageDescription={formPageData.description}
-        privacyText={formPageData.privacyText}
+        formSelect={formSelect || []}
+        isMultiSelect={formPageData?.multipleSelect || false}
+        pageTitle={formPageData?.title || "Flyttetipset Form"}
+        pageDescription={formPageData?.description || ""}
+        privacyText={formPageData?.privacyText || "Personvern: Dine data er trygge hos oss."}
       />
     </>
   );

@@ -75,6 +75,15 @@ export async function generateMetadata({ searchParams }: PageProps) {
 
 const ArticlePage = async ({ searchParams }: ArticlePageProps) => {
   const articlesPage = await getArticlePageData();
+
+  if (!articlesPage) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl font-semibold">Tjenesten er midlertidig utilgjengelig. Vennligst prøv igjen senere.</p>
+      </div>
+    );
+  }
+
   return (
     <>
       <Breadcrumbs className="mt-8" />

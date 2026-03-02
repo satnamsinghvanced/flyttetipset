@@ -7,29 +7,29 @@ import React from "react";
 
 export default async function DefaultLayout({ children }: { children: React.ReactNode }) {
   const doc = await getCachedThemeData();
-  const themeData = await JSON.parse(JSON.stringify(doc));
+  const themeData = await JSON.parse(JSON.stringify(doc || {}));
   const theme = themeData?.theme || Static_THEME;
-  const logos = themeData?.logos;
+  const logos = themeData?.logos || { logo: "", wordmark: "Flyttetipset" };
 
   return (
     <div
       className=""
       style={{
-        '--color-primary': theme.primary,
-        '--color-primarylight': theme.primarylight,
-        '--color-secondary': theme.secondary,
-        '--color-dark': theme.dark,
-        '--color-accent': theme.accent,
-        '--color-background': theme.background,
-        '--color-cardbg': theme.cardbg,
-        '--color-navbarbg': theme.navbarbg,
-        '--color-footerbg': theme.footerbg,
-        '--color-formsteps': theme.formsteps,
+        '--color-primary': theme.primary || Static_THEME.primary,
+        '--color-primarylight': theme.primarylight || Static_THEME.primarylight,
+        '--color-secondary': theme.secondary || Static_THEME.secondary,
+        '--color-dark': theme.dark || Static_THEME.dark,
+        '--color-accent': theme.accent || Static_THEME.accent,
+        '--color-background': theme.background || Static_THEME.background,
+        '--color-cardbg': theme.cardbg || Static_THEME.cardbg,
+        '--color-navbarbg': theme.navbarbg || Static_THEME.navbarbg,
+        '--color-footerbg': theme.footerbg || Static_THEME.footerbg,
+        '--color-formsteps': theme.formsteps || Static_THEME.formsteps,
       } as React.CSSProperties}
     >
-      <Navbar logo={logos.logo} logoText={logos.wordmark} />
+      <Navbar logo={logos?.logo} logoText={logos?.wordmark} />
       {children}
-      <Footer logoText={logos.wordmark} />
+      <Footer logoText={logos?.wordmark} />
     </div>
   );
 }

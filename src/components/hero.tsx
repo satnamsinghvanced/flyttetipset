@@ -14,7 +14,16 @@ import LatestInsights from "./landing-page/latestInsights";
 
 export default async function HeroPage() {
   const homeDoc: any = await getCachedHomePageData();
-  const homepageRes = await JSON.parse(JSON.stringify(homeDoc));
+  const homepageRes = await JSON.parse(JSON.stringify(homeDoc || {}));
+
+  if (!homepageRes) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-xl font-semibold">Tjenesten er midlertidig utilgjengelig. Vennligst prøv igjen senere.</p>
+      </div>
+    );
+  }
+
   const {
     heroSection,
     whyChooseMeglertipCards,
@@ -67,35 +76,35 @@ export default async function HeroPage() {
   const topArticles = await JSON.parse(JSON.stringify(topArticlesDoc));
 
   return (
-      <>
-        <Banner BannerData={heroSection} />
-        <HowItWorks
-          cards={howDoesItworksCards}
-          flex={true}
-          title={howDoesItworks.heading}
-        />
-        <Article heading={ourArticlesHeading.heading || ""} />
-        <HowItWorks
-          cards={whyChooseMeglertipCards}
-          title={whyChooseMeglertipHeading.heading}
-          howItWorks={false}
-        />
-        <ImageWithTextWithPoints data={prosSection[0]} />
-        <Guides data={citySectionWithSortedLocations} />
-        {prosSection && prosSection.length > 1 && (
-          <>
-            {prosSection.slice(1)?.map((section: any, index: number) => (
-              <ImageWithTextWithPoints key={index} data={section} />
-            ))}
-          </>
-        )}
-        <LatestInsights
-          articlesHeading={articlesHeading || ""}
-          data={topArticles.data}
-        />
-        <div className="mb-20 lg:mb-0 ">
-          <FAQSection {...faqSectionProps} title={faq?.title} />
-        </div>
-      </>
+    <>
+      <Banner BannerData={heroSection} />
+      <HowItWorks
+        cards={howDoesItworksCards}
+        flex={true}
+        title={howDoesItworks.heading}
+      />
+      <Article heading={ourArticlesHeading.heading || ""} />
+      <HowItWorks
+        cards={whyChooseMeglertipCards}
+        title={whyChooseMeglertipHeading.heading}
+        howItWorks={false}
+      />
+      <ImageWithTextWithPoints data={prosSection[0]} />
+      <Guides data={citySectionWithSortedLocations} />
+      {prosSection && prosSection.length > 1 && (
+        <>
+          {prosSection.slice(1)?.map((section: any, index: number) => (
+            <ImageWithTextWithPoints key={index} data={section} />
+          ))}
+        </>
+      )}
+      <LatestInsights
+        articlesHeading={articlesHeading || ""}
+        data={topArticles.data}
+      />
+      <div className="mb-20 lg:mb-0 ">
+        <FAQSection {...faqSectionProps} title={faq?.title} />
+      </div>
+    </>
   );
 }
